@@ -1,0 +1,31 @@
+/**
+* Alecsander Lima
+* aleclima14@gmail.com
+* Campinas, SP - 03/fev/2023
+ */
+
+
+#ifndef __configuration.h__
+#define __configuration.h__
+
+#include "Arduino.h"
+
+/* Enable peripherals */
+#define ENABLE_BUZZER               //Enable play buzzer
+#define ENABLE_TOGGLE_BACKLIGHT     //Enable turn on/off backlight
+
+/* Peripherals */
+#define BUZZER_PIN         6
+#define BUTTON1_PIN        7  
+#define BUTTON2_PIN        5
+#define BUTTON3_PIN        4
+
+/* Display ST7920 128x64 pixels */
+#define SCK_PIN            13
+#define MOSI_PIN           11
+#define CS_PIN             10
+#define ENABLE_BACKLIGHT   9
+#define RESET_PIN          8 
+
+
+#endif /* __configuration.h__ */
