@@ -14,7 +14,7 @@ int buttonSL = 0;
 bool flagButtonUP = false;
 bool flagButtonSL = false;
 
-/* PROTOTYPES */
+/* LOCAL FUNCTIONS */
 //empty
 
 /* FUNCTIONS */

@@ -7,8 +7,10 @@
 #ifndef __configuration_h__
 #define __configuration_h__
 
+/* INCLUDES */
 #include "Arduino.h"
 
+/* DEFINES */
 /* Enable peripherals */
 #define ENABLE_BUZZER               //Enable play buzzer
 #define ENABLE_TOGGLE_BACKLIGHT     //Enable turn on/off backlight

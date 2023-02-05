@@ -7,13 +7,16 @@
 #ifndef __peripherals_h__
 #define __peripherals_h__
 
+/* INCLUDES */
 #include "Arduino.h"
 #include "configuration.h"
 #include "display.h"
 
+/* DEFINES */
 #define DEBOUCE_BUTTON  200
 #define DEBOUNCE_SELECT_BUTTON  100
 
+/* ENUMS */
 enum Keypressed
 {
    BUTTON_UP      = 1,
@@ -21,9 +24,9 @@ enum Keypressed
    BUTTON_SELECT  = 3,
 };
 
+/* GLOBAL FUNCTIONS */
 void fnvBuzzerInit();
 void fnvBuzzerPlay(int frequency, int duration);
-
 void fnvButtonsInit();
 int fniButtonPressed();
 

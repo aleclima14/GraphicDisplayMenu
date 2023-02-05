@@ -13,7 +13,6 @@ void setup()
   fnvDisplayInit();
   fnvBuzzerInit();
   fnvButtonsInit();
-  fnvBacklightEnable(true);
 }
 
 void loop()

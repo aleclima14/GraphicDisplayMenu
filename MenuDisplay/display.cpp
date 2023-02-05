@@ -2,6 +2,7 @@
 #include "configuration.h"
 #include <U8g2lib.h>
 #include "peripherals.h"
+#include "display_screen.h"
 
 U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, SCK_PIN, MOSI_PIN, CS_PIN, RESET_PIN);
 
@@ -9,21 +10,6 @@ void fnvIncDecSelectedItemMenu();
 
 /* GLOBAL VARIABLES */
 bool toggleBackLight = true;
-
-const int NUMBER_ITEMS_MENU = 8;
-const int MAX_LENGHT_TEXT = 14;
-
-char cMenuItems[NUMBER_ITEMS_MENU][MAX_LENGHT_TEXT] =
-{
-  {"Localization"   },
-  {"Message"        },
-  {"Temperature"    },
-  {"Voltage Set"    },
-  {"Current Set"    },
-  {"Dashboard"      },
-  {"Support Chat"   },
-  {"Configuration"  },
-};
 
 int iPreviusItem;
 int iNextItem;
@@ -37,6 +23,7 @@ void fnvDisplayInit(void)
 {
   u8g2.begin();
   pinMode(ENABLE_BACKLIGHT, OUTPUT);
+  digitalWrite(ENABLE_BACKLIGHT, true);
 }
 
 /**
@@ -48,8 +35,6 @@ void fnvBacklightEnable(bool turnOn)
 {
   #ifdef ENABLE_TOGGLE_BACKLIGHT
   digitalWrite(ENABLE_BACKLIGHT, turnOn);
-  #else
-  digitalWrite(ENABLE_BACKLIGHT, true);
   #endif
 }
 
@@ -63,6 +48,10 @@ void fnvToggleBacklight(void)
   fnvBacklightEnable(toggleBackLight);
 }
 
+/**
+ * @brief Draw menu
+ * 
+ */
 void fnvDrawFirstTest()
 {
   iPreviusItem = iSelectedItem - 1;
@@ -81,6 +70,10 @@ void fnvDrawFirstTest()
   } while ( u8g2.nextPage() );
 }
 
+/**
+ * @brief If the button Up or Down was pressed, change the selected menu item
+ *        
+ */
 void fnvIncDecSelectedItemMenu()
 {
   int buttonValue = fniButtonPressed();
