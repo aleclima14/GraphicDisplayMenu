@@ -4,8 +4,8 @@
 * Campinas, SP - 03/fev/2023
  */
 
-#ifndef __diplay.h__
-#define __diplay.h__
+#ifndef __diplay_h__
+#define __diplay_h__
 
 #include "Arduino.h"
 #include "configuration.h"
@@ -18,8 +18,6 @@ void fnvDisplayInit(void);
 void fnvBacklightEnable (bool turnOn);
 void fnvDrawFirstTest();
 void fnvToggleBacklight(void);
-
-
 
 static const unsigned char backGroundTeste[] U8X8_PROGMEM  = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
@@ -110,7 +108,4 @@ static const unsigned char backGroundTeste[] U8X8_PROGMEM  = {
   0x00, 0x00, 0x00, 0x00,
   };
 
-
-
-
-#endif /* __diplay.h__ */
+#endif /* __diplay_h__ */

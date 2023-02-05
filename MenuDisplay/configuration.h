@@ -4,9 +4,8 @@
 * Campinas, SP - 03/fev/2023
  */
 
-
-#ifndef __configuration.h__
-#define __configuration.h__
+#ifndef __configuration_h__
+#define __configuration_h__
 
 #include "Arduino.h"
 
@@ -28,4 +27,4 @@
 #define RESET_PIN          8 
 
 
-#endif /* __configuration.h__ */
+#endif /* __configuration_h__ */

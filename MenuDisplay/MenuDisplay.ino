@@ -19,5 +19,4 @@ void setup()
 void loop()
 {
   fnvDrawFirstTest();
-//  int buttonValue = fniButtonPressed();
 }

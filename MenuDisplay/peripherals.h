@@ -4,8 +4,8 @@
 * Campinas, SP - 03/fev/2023
  */
  
-#ifndef __peripherals.h__
-#define __peripherals.h__
+#ifndef __peripherals_h__
+#define __peripherals_h__
 
 #include "Arduino.h"
 #include "configuration.h"
@@ -27,4 +27,4 @@ void fnvBuzzerPlay(int frequency, int duration);
 void fnvButtonsInit();
 int fniButtonPressed();
 
-#endif /* __peripherals.h__ */
+#endif /* __peripherals_h__ */
