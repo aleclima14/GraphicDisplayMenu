@@ -11,7 +11,8 @@
 #include "configuration.h"
 #include "display.h"
 
-#define DEBOUCE_BUTTON 200
+#define DEBOUCE_BUTTON  200
+#define DEBOUNCE_SELECT_BUTTON  100
 
 enum Keypressed
 {

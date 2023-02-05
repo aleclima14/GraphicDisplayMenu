@@ -95,7 +95,7 @@ int fniButtonPressed()
   buttonSL = digitalRead(BUTTON3_PIN);
   if((!buttonSL) && (flagButtonSL))
   {
-    if((millis() - ulDebounceSL) > DEBOUCE_BUTTON)
+    if((millis() - ulDebounceSL) > DEBOUNCE_SELECT_BUTTON)
     {
       ulDebounceSL = millis();
       returnButton = BUTTON_SELECT;
