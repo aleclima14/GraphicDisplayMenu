@@ -13,7 +13,7 @@ bool toggleBackLight = true;
 
 int iPreviusItem;
 int iNextItem;
-int iSelectedItem = 1;
+int iSelectedItem = 0;
 
 /**
  * @brief Init u8g2 lib and backlight display
@@ -67,6 +67,8 @@ void fnvDrawFirstTest()
     u8g2.drawStr(22, 36, cMenuItems[iSelectedItem]);
     u8g2.setFont(u8g2_font_t0_11_mr);
     u8g2.drawStr(22, 58, cMenuItems[iNextItem]);
+
+    u8g2.drawBox(124, 64/NUMBER_ITEMS_MENU * iSelectedItem, 3, 64/NUMBER_ITEMS_MENU);
   } while ( u8g2.nextPage() );
 }
 
