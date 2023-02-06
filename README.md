@@ -8,3 +8,9 @@ Requisitos:
 - 16x16 para icones
 
 u8g2.drawXBMP(x, y, x_size, y_size, array_bitmap);
+
+Para criar os icones, basta criar um projeto no Photoshop, Photopea ou qualquer editor de imagem seguindo os requisitos:
+- Tamanho 16x16 pixels
+- Fundo branco
+- Texto/icone preto
+- Salvar em PNG e converter no Convertio
