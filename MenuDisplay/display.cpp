@@ -16,9 +16,9 @@ int iNextItem;
 int iSelectedItem = 0;
 
 /**
- * @brief Init u8g2 lib and backlight display
- * 
- */
+   @brief Init u8g2 lib and backlight display
+
+*/
 void fnvDisplayInit(void)
 {
   u8g2.begin();
@@ -27,21 +27,21 @@ void fnvDisplayInit(void)
 }
 
 /**
- * @brief Turn on/off backlight
- * 
- * @param turnOn 
- */
+   @brief Turn on/off backlight
+
+   @param turnOn
+*/
 void fnvBacklightEnable(bool turnOn)
 {
-  #ifdef ENABLE_TOGGLE_BACKLIGHT
+#ifdef ENABLE_TOGGLE_BACKLIGHT
   digitalWrite(ENABLE_BACKLIGHT, turnOn);
-  #endif
+#endif
 }
 
 /**
- * @brief Toggle backlight
- * 
- */
+   @brief Toggle backlight
+
+*/
 void fnvToggleBacklight(void)
 {
   toggleBackLight = !toggleBackLight;
@@ -49,55 +49,62 @@ void fnvToggleBacklight(void)
 }
 
 /**
- * @brief Draw menu
- * 
- */
+   @brief Draw menu
+
+*/
 void fnvDrawFirstTest()
 {
   iPreviusItem = iSelectedItem - 1;
-  iNextItem = iSelectedItem + 1; 
-    
+  iNextItem = iSelectedItem + 1;
+
   u8g2.firstPage();
-  do {
+  do
+  {
     fnvIncDecSelectedItemMenu();
     u8g2.drawXBMP(0, 0, 128, 64, backGroundTeste);
-    u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(22, 14, cMenuItems[iPreviusItem]);
-    u8g2.setFont(u8g2_font_t0_11b_mr);
-    u8g2.drawStr(22, 36, cMenuItems[iSelectedItem]);
-    u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(22, 58, cMenuItems[iNextItem]);
 
-    u8g2.drawBox(124, 64/NUMBER_ITEMS_MENU * iSelectedItem, 3, 64/NUMBER_ITEMS_MENU);
-  } while ( u8g2.nextPage() );
+    u8g2.drawXBMP(5, 2, 16, 16, config_icon);
+    u8g2.setFont(u8g2_font_t0_11_mr);
+    u8g2.drawStr(24, 14, cMenuItems[iPreviusItem]);
+
+    u8g2.drawXBMP(5, 24, 16, 16, battery_icon);
+    u8g2.setFont(u8g2_font_t0_11b_mr);
+    u8g2.drawStr(24, 36, cMenuItems[iSelectedItem]);
+
+    u8g2.drawXBMP(5, 45, 16, 16, bluetooth_icon);
+    u8g2.setFont(u8g2_font_t0_11_mr);
+    u8g2.drawStr(24, 58, cMenuItems[iNextItem]);
+
+    u8g2.drawBox(124, 64 / NUMBER_ITEMS_MENU * iSelectedItem, 3, 64 / NUMBER_ITEMS_MENU);
+  } while (u8g2.nextPage());
 }
 
 /**
- * @brief If the button Up or Down was pressed, change the selected menu item
- *        
- */
+   @brief If the button Up or Down was pressed, change the selected menu item
+
+*/
 void fnvIncDecSelectedItemMenu()
 {
   int buttonValue = fniButtonPressed();
 
-  if(buttonValue == BUTTON_UP)
+  if (buttonValue == BUTTON_UP)
   {
     iSelectedItem--;
-    if(iSelectedItem < 0)
+    if (iSelectedItem < 0)
     {
-      iSelectedItem = NUMBER_ITEMS_MENU - 1; 
+      iSelectedItem = NUMBER_ITEMS_MENU - 1;
     }
   }
   else if (buttonValue == BUTTON_DOWN)
   {
     iSelectedItem++;
-    if(iSelectedItem >= NUMBER_ITEMS_MENU)
+    if (iSelectedItem >= NUMBER_ITEMS_MENU)
     {
       iSelectedItem = 0;
     }
   }
-  
-  if(iPreviusItem < 0)
+
+  if (iPreviusItem < 0)
   {
     iPreviusItem = NUMBER_ITEMS_MENU - 1;
   }
