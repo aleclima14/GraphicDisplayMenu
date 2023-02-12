@@ -13,7 +13,7 @@
 #include "display.h"
 
 /* DEFINES */
-#define DEBOUCE_BUTTON  200
+#define DEBOUCE_BUTTON  300
 #define DEBOUNCE_SELECT_BUTTON  100
 
 /* ENUMS */
