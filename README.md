@@ -14,3 +14,6 @@ Para criar os icones, basta criar um projeto no Photoshop, Photopea ou qualquer 
 - Fundo branco
 - Texto/icone preto
 - Salvar em PNG e converter no Convertio
+
+
+![display-working](https://user-images.githubusercontent.com/93883349/218288578-98ce320d-00a3-48f3-b0ba-8749582833c7.gif)
