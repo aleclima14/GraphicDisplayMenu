@@ -100,7 +100,7 @@ int fniButtonPressed()
       ulDebounceSL = millis();
       returnButton = BUTTON_SELECT;
       
-      fnvToggleBacklight();    
+//      fnvToggleBacklight();    
       fnvBuzzerPlay(2000, 50);
     }
   }

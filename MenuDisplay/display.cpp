@@ -63,15 +63,15 @@ void fnvDrawFirstTest()
     fnvIncDecSelectedItemMenu();
     u8g2.drawXBMP(0, 0, 128, 64, backGroundTeste);
 
-    u8g2.drawXBMP(5, 2, 16, 16, config_icon);
+    u8g2.drawXBMP(5, 2, 16, 16, pucMenuIcons[iPreviusItem]);
     u8g2.setFont(u8g2_font_t0_11_mr);
     u8g2.drawStr(24, 14, cMenuItems[iPreviusItem]);
 
-    u8g2.drawXBMP(5, 24, 16, 16, battery_icon);
+    u8g2.drawXBMP(5, 24, 16, 16, pucMenuIcons[iSelectedItem]);
     u8g2.setFont(u8g2_font_t0_11b_mr);
     u8g2.drawStr(24, 36, cMenuItems[iSelectedItem]);
 
-    u8g2.drawXBMP(5, 45, 16, 16, bluetooth_icon);
+    u8g2.drawXBMP(5, 45, 16, 16, pucMenuIcons[iNextItem]);
     u8g2.setFont(u8g2_font_t0_11_mr);
     u8g2.drawStr(24, 58, cMenuItems[iNextItem]);
 
