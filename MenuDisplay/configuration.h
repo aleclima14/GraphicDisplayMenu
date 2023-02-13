@@ -12,7 +12,7 @@
 
 /* DEFINES */
 /* Enable peripherals */
-#define ENABLE_BUZZER               //Enable play buzzer
+//#define ENABLE_BUZZER               //Enable play buzzer
 #define ENABLE_TOGGLE_BACKLIGHT     //Enable turn on/off backlight
 
 /* Peripherals */
@@ -28,5 +28,8 @@
 #define ENABLE_BACKLIGHT   9
 #define RESET_PIN          8 
 
+/* EEPROM ADDRESS */
+#define BACKLIGHT_ADDRESS  0
+#define BUZZER_ADDRESS     1
 
 #endif /* __configuration_h__ */

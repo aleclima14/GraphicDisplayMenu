@@ -16,43 +16,38 @@ int iNextItem;
 int iSelectedItem = 0;
 
 /**
-   @brief Init u8g2 lib and backlight display
-
-*/
+ * @brief Init u8g2 lib and backlight display
+ * 
+ */
 void fnvDisplayInit(void)
 {
   u8g2.begin();
   pinMode(ENABLE_BACKLIGHT, OUTPUT);
-  digitalWrite(ENABLE_BACKLIGHT, true);
+  int backlightEEPROMValue = EEPROM.read(BACKLIGHT_ADDRESS);
+  analogWrite(ENABLE_BACKLIGHT, backlightEEPROMValue);
 }
 
 /**
-   @brief Turn on/off backlight
-
-   @param turnOn
-*/
-void fnvBacklightEnable(bool turnOn)
+ * @brief Set value of brightness
+ * 
+ * @param valuePWM
+ */
+void fnvBacklightEnable(int valuePWM)
 {
-#ifdef ENABLE_TOGGLE_BACKLIGHT
-  digitalWrite(ENABLE_BACKLIGHT, turnOn);
-#endif
+  if (valuePWM > 250) valuePWM = 250;
+  if (valuePWM < 0) valuePWM = 0;
+  
+  EEPROM.write(BACKLIGHT_ADDRESS, valuePWM);
+
+  int backlightEEPROMValue = EEPROM.read(BACKLIGHT_ADDRESS);
+  analogWrite(ENABLE_BACKLIGHT, backlightEEPROMValue);
 }
 
 /**
-   @brief Toggle backlight
-
-*/
-void fnvToggleBacklight(void)
-{
-  toggleBackLight = !toggleBackLight;
-  fnvBacklightEnable(toggleBackLight);
-}
-
-/**
-   @brief Draw menu
-
-*/
-void fnvDrawFirstTest()
+ * @brief Draw menu 
+ * 
+ */
+void fnvDrawMenuList()
 {
   iPreviusItem = iSelectedItem - 1;
   iNextItem = iSelectedItem + 1;
@@ -60,7 +55,7 @@ void fnvDrawFirstTest()
   u8g2.firstPage();
   do
   {
-    fnvIncDecSelectedItemMenu();
+    fnvIncDecSelectedItemMenu(void);
     u8g2.drawXBMP(0, 0, 128, 64, backGroundTeste);
 
     u8g2.drawXBMP(5, 2, 16, 16, pucMenuIcons[iPreviusItem]);
@@ -80,10 +75,10 @@ void fnvDrawFirstTest()
 }
 
 /**
-   @brief If the button Up or Down was pressed, change the selected menu item
-
-*/
-void fnvIncDecSelectedItemMenu()
+ * @brief If the button Up or Down was pressed, change the selected menu item
+ * 
+ */
+void fnvIncDecSelectedItemMenu(void)
 {
   int buttonValue = fniButtonPressed();
 

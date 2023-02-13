@@ -11,14 +11,15 @@
 #include "Arduino.h"
 #include "configuration.h"
 #include <U8g2lib.h>
+#include <EEPROM.h>
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
 #endif
 
 /* GLOBAL FUNCTIONS */
 void fnvDisplayInit(void);
-void fnvBacklightEnable (bool turnOn);
-void fnvDrawFirstTest();
+void fnvBacklightEnable(int valuePWM);
+void fnvDrawMenuList();
 void fnvToggleBacklight(void);
 
 #endif /* __diplay_h__ */
