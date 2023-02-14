@@ -14,7 +14,7 @@ int buttonSL = 0;
 bool flagButtonUP = false;
 bool flagButtonSL = false;
 
-int valuePWMTest = EEPROM.read(BACKLIGHT_ADDRESS);
+// int valuePWMTest = EEPROM.read(BACKLIGHT_ADDRESS);
 /* LOCAL FUNCTIONS */
 //empty
 
@@ -37,17 +37,30 @@ void fnvBuzzerInit()
  */
 void fnvBuzzerPlay(int frequency, int duration)
 {
-  #ifdef ENABLE_BUZZER
-  float periode = 1000.0 / frequency;
+  int buzzerEnable = EEPROM.read(BUZZER_ADDRESS);
 
-  for (int i = 0; i < duration / (periode); i++)
+  if (buzzerEnable > 0)
   {
-    digitalWrite(BUZZER_PIN,HIGH);
-    delayMicroseconds(periode * 500);
-    digitalWrite(BUZZER_PIN, LOW);
-    delayMicroseconds(periode * 500);
+    float periode = 1000.0 / frequency;
+
+    for (int i = 0; i < duration / (periode); i++)
+    {
+      digitalWrite(BUZZER_PIN,HIGH);
+      delayMicroseconds(periode * 500);
+      digitalWrite(BUZZER_PIN, LOW);
+      delayMicroseconds(periode * 500);
+    }
   }
-  #endif
+}
+
+/**
+ * @brief Enable/disable buzzer
+ * 
+ * @param stateBz 
+ */
+void fnvBuzzerEnableDisable (int stateBz)
+{
+  EEPROM.write(BUZZER_ADDRESS, stateBz);
 }
 
 /**

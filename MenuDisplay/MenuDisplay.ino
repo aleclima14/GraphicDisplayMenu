@@ -19,7 +19,5 @@ void setup()
 
 void loop()
 {
-//  fnvDrawMenuList();
-  //  fnvDrawBrightnessMenu();
   (*changeScreen)();
 }

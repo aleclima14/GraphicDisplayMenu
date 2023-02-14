@@ -13,12 +13,11 @@ void fnvIncDecBrightness(void);
 void (*changeScreen)();
 
 /* GLOBAL VARIABLES */
-bool toggleBackLight = true;
-
 int iPreviusItem;
 int iNextItem;
 int iSelectedItem = 0;
 int brightnessValue;
+int buzzerState;
 
 /**
  * @brief Init u8g2 lib and backlight display
@@ -57,7 +56,7 @@ void fnvIncDecSelectedItemMenu(void)
 {
   int buttonValue = fniButtonPressed();
 
-  if (buttonValue == BUTTON_UP)
+  if (buttonValue == BUTTON_DOWN)
   {
     iSelectedItem--;
     if (iSelectedItem < 0)
@@ -65,7 +64,7 @@ void fnvIncDecSelectedItemMenu(void)
       iSelectedItem = NUMBER_ITEMS_MENU - 1;
     }
   }
-  else if (buttonValue == BUTTON_DOWN)
+  else if (buttonValue == BUTTON_UP)
   {
     iSelectedItem++;
     if (iSelectedItem >= NUMBER_ITEMS_MENU)
@@ -77,6 +76,14 @@ void fnvIncDecSelectedItemMenu(void)
   {
     switch (iSelectedItem)
     {
+      case 6:
+      {
+        buzzerState = EEPROM.read(BUZZER_ADDRESS);
+        buzzerState = !buzzerState;
+        fnvBuzzerEnableDisable(buzzerState);
+      }
+      break;
+
       case 7:
       {
         changeScreen = fnvDrawBrightnessMenu;
