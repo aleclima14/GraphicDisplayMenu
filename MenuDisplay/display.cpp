@@ -10,6 +10,7 @@ U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, SCK_PIN, MOSI_PIN, CS_PIN, RESET_PIN);
 /* PRIVATE FUNCTIONS */
 void fnvIncDecSelectedItemMenu(void);
 void fnvIncDecBrightness(void);
+void (*changeScreen)();
 
 /* GLOBAL VARIABLES */
 bool toggleBackLight = true;
@@ -29,6 +30,7 @@ void fnvDisplayInit(void)
   pinMode(ENABLE_BACKLIGHT, OUTPUT);
   int backlightEEPROMValue = EEPROM.read(BACKLIGHT_ADDRESS);
   analogWrite(ENABLE_BACKLIGHT, backlightEEPROMValue);
+  changeScreen = fnvDrawBrightnessMenu;
 }
 
 /**
@@ -155,5 +157,6 @@ void fnvIncDecBrightness(void)
   else if (buttonValue == BUTTON_SELECT)
   {
     // fnvDrawMenuList();
+    changeScreen = fnvDrawMenuList;
   }
 }

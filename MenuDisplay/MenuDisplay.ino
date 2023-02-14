@@ -8,6 +8,8 @@
 #include "configuration.h"
 #include "peripherals.h"
 
+extern void (*changeScreen)();
+
 void setup()
 {
   fnvDisplayInit();
@@ -18,5 +20,6 @@ void setup()
 void loop()
 {
 //  fnvDrawMenuList();
-   fnvDrawBrightnessMenu();
+  //  fnvDrawBrightnessMenu();
+  (*changeScreen)();
 }
