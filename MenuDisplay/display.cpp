@@ -30,7 +30,7 @@ void fnvDisplayInit(void)
   pinMode(ENABLE_BACKLIGHT, OUTPUT);
   int backlightEEPROMValue = EEPROM.read(BACKLIGHT_ADDRESS);
   analogWrite(ENABLE_BACKLIGHT, backlightEEPROMValue);
-  changeScreen = fnvDrawBrightnessMenu;
+  changeScreen = fnvDrawMenuList;
 }
 
 /**
@@ -71,6 +71,17 @@ void fnvIncDecSelectedItemMenu(void)
     if (iSelectedItem >= NUMBER_ITEMS_MENU)
     {
       iSelectedItem = 0;
+    }
+  }
+  else if (buttonValue == BUTTON_SELECT)
+  {
+    switch (iSelectedItem)
+    {
+      case 7:
+      {
+        changeScreen = fnvDrawBrightnessMenu;
+      }
+      break;
     }
   }
 
