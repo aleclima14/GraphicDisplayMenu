@@ -12,7 +12,7 @@
 
 /* DEFINES */
 /* Enable peripherals */
-//#define ENABLE_BUZZER               //Enable play buzzer
+#define ENABLE_BUZZER               //Enable play buzzer
 #define ENABLE_TOGGLE_BACKLIGHT     //Enable turn on/off backlight
 
 /* Peripherals */

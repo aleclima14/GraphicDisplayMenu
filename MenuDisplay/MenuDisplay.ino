@@ -17,5 +17,6 @@ void setup()
 
 void loop()
 {
-  fnvDrawMenuList();
+//  fnvDrawMenuList();
+   fnvDrawBrightnessMenu();
 }

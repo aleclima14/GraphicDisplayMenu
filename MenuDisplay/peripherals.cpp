@@ -78,9 +78,6 @@ int fniButtonPressed()
       ulDebounceUP = millis();
       returnButton = BUTTON_UP;
       fnvBuzzerPlay(2000, 50);
-      valuePWMTest+=25;
-      if(valuePWMTest > 250) valuePWMTest = 250;
-      fnvBacklightEnable(valuePWMTest);
     }
   }
 
@@ -92,9 +89,6 @@ int fniButtonPressed()
       ulDebounceDW = millis();
       returnButton = BUTTON_DOWN;
       fnvBuzzerPlay(2000, 50);
-      valuePWMTest-=25;
-      if(valuePWMTest < 0) valuePWMTest = 0;
-      fnvBacklightEnable(valuePWMTest);
     }
   }
 

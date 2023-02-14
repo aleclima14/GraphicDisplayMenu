@@ -18,8 +18,9 @@
 
 /* GLOBAL FUNCTIONS */
 void fnvDisplayInit(void);
-void fnvBacklightEnable(int valuePWM);
-void fnvDrawMenuList();
+void fnvBacklightSetValue(int valuePWM);
+void fnvDrawMenuList(void);
+void fnvDrawBrightnessMenu(void);
 void fnvToggleBacklight(void);
 
 #endif /* __diplay_h__ */
