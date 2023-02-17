@@ -63,6 +63,14 @@ void fnvBuzzerEnableDisable (int stateBz)
   EEPROM.write(BUZZER_ADDRESS, stateBz);
 }
 
+void fnvBuzzerToggleStatus()
+{
+  static int buzzerState;
+  buzzerState = EEPROM.read(BUZZER_ADDRESS);
+  buzzerState = !buzzerState;
+  fnvBuzzerEnableDisable(buzzerState);
+}
+
 /**
  * @brief Set the button pins as input with pullup
  * 

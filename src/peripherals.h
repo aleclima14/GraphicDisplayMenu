@@ -28,6 +28,7 @@ enum Keypressed
 void fnvBuzzerInit();
 void fnvBuzzerPlay(int frequency, int duration);
 void fnvBuzzerEnableDisable (int stateBz);
+void fnvBuzzerToggleStatus();
 void fnvButtonsInit();
 int fniButtonPressed();
 

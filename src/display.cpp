@@ -17,7 +17,7 @@ int iPreviusItem;
 int iNextItem;
 int iSelectedItem = 0;
 int brightnessValue;
-int buzzerState;
+
 
 /**
  * @brief Init u8g2 lib and backlight display
@@ -74,20 +74,21 @@ void fnvIncDecSelectedItemMenu(void)
   }
   else if (buttonValue == BUTTON_SELECT)
   {
-    switch (iSelectedItem)
+    switch (stMenuTable[iSelectedItem].enMenuItem)
     {
-      case 6:
+      case MENU_SOUND:
       {
-        buzzerState = EEPROM.read(BUZZER_ADDRESS);
-        buzzerState = !buzzerState;
-        fnvBuzzerEnableDisable(buzzerState);
+        stMenuTable[MENU_SOUND].pvFunction;
       }
       break;
 
-      case 7:
+      case MENU_CONFIGURATION:
       {
-        changeScreen = fnvDrawBrightnessMenu;
+        stMenuTable[MENU_CONFIGURATION].pvFunction;
       }
+      break;
+
+      default:
       break;
     }
   }
@@ -120,17 +121,17 @@ void fnvDrawMenuList(void)
 
     u8g2.drawXBMP(5, 2, 16, 16, pucMenuIcons[iPreviusItem]);
     u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(24, 14, cMenuItems[iPreviusItem]);
+    u8g2.drawStr(24, 14, stMenuTable[iPreviusItem].pucMenuName);
 
     u8g2.drawXBMP(5, 24, 16, 16, pucMenuIcons[iSelectedItem]);
     u8g2.setFont(u8g2_font_t0_11b_mr);
-    u8g2.drawStr(24, 36, cMenuItems[iSelectedItem]);
+    u8g2.drawStr(24, 36, stMenuTable[iSelectedItem].pucMenuName);
 
     u8g2.drawXBMP(5, 45, 16, 16, pucMenuIcons[iNextItem]);
     u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(24, 58, cMenuItems[iNextItem]);
+    u8g2.drawStr(24, 58, stMenuTable[iNextItem].pucMenuName);
 
-    u8g2.drawBox(124, 64 / NUMBER_ITEMS_MENU * iSelectedItem, 3, 64 / NUMBER_ITEMS_MENU);
+    u8g2.drawBox(124, 64 / MENU_TABLE_SIZE * iSelectedItem, 3, 64 / MENU_TABLE_SIZE);
   } while (u8g2.nextPage());
 }
 

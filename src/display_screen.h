@@ -10,6 +10,7 @@
 /* INCLUDES */
 #include "Arduino.h"
 #include "configuration.h"
+#include "display.h"
 #include <U8g2lib.h>
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
@@ -96,6 +97,39 @@ static const unsigned char return_icon[] U8X8_PROGMEM  =
   0x10, 0x0C, 0x08, 0x04, 0x08, 0x00, 0x08, 0x00, 0x08, 0x00, 0x10, 0x00, 
   0xE0, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
+
+
+typedef enum
+{
+  MENU_LOCALIZATION,
+  MENU_BLUETOOTH,
+  MENU_BATTERY,
+  MENU_CLOCK,
+  MENU_ALERTS,
+  MENU_GAUGE,
+  MENU_SOUND,
+  MENU_CONFIGURATION,
+}EnMenuListItems;
+
+typedef struct
+{
+  EnMenuListItems enMenuItem;
+  char *pucMenuName;
+  void (*pvFunction)();
+}StMenuListAction;
+
+static const StMenuListAction stMenuTable[] =
+{
+  {MENU_LOCALIZATION,       "Localization",                             NULL},
+  {MENU_BLUETOOTH,          "Bluetooth",                                NULL},
+  {MENU_BATTERY,            "Battery",                                  NULL},
+  {MENU_CLOCK,              "Clock",                                    NULL},
+  {MENU_ALERTS,             "Alerts",                                   NULL},
+  {MENU_GAUGE,              "Gauge",                                    NULL},
+  {MENU_SOUND,              "Sound",                  &fnvBuzzerToggleStatus},
+  {MENU_CONFIGURATION,      "Configuration",          &fnvDrawBrightnessMenu},
+};
+#define MENU_TABLE_SIZE (sizeof(stMenuTable)/sizeof(StMenuListAction))
 
 char cMenuItems[NUMBER_ITEMS_MENU][MAX_LENGHT_TEXT] =
 {
