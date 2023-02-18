@@ -18,7 +18,6 @@ int iNextItem;
 int iSelectedItem = 0;
 int brightnessValue;
 
-
 /**
  * @brief Init u8g2 lib and backlight display
  * 
@@ -61,13 +60,13 @@ void fnvIncDecSelectedItemMenu(void)
     iSelectedItem--;
     if (iSelectedItem < 0)
     {
-      iSelectedItem = NUMBER_ITEMS_MENU - 1;
+      iSelectedItem = MENU_TABLE_SIZE - 1;
     }
   }
   else if (buttonValue == BUTTON_UP)
   {
     iSelectedItem++;
-    if (iSelectedItem >= NUMBER_ITEMS_MENU)
+    if (iSelectedItem >= MENU_TABLE_SIZE)
     {
       iSelectedItem = 0;
     }
@@ -78,13 +77,15 @@ void fnvIncDecSelectedItemMenu(void)
     {
       case MENU_SOUND:
       {
-        stMenuTable[MENU_SOUND].pvFunction;
+        // To call a function:
+        stMenuTable[iSelectedItem].pvFunction();
       }
       break;
 
       case MENU_CONFIGURATION:
       {
-        stMenuTable[MENU_CONFIGURATION].pvFunction;
+        // To change screen:
+        changeScreen = stMenuTable[iSelectedItem].pvFunction;
       }
       break;
 
@@ -95,10 +96,10 @@ void fnvIncDecSelectedItemMenu(void)
 
   if (iPreviusItem < 0)
   {
-    iPreviusItem = NUMBER_ITEMS_MENU - 1;
+    iPreviusItem = MENU_TABLE_SIZE - 1;
   }
 
-  if (iNextItem >= NUMBER_ITEMS_MENU)
+  if (iNextItem >= MENU_TABLE_SIZE)
   {
     iNextItem = 0;
   }
@@ -119,15 +120,15 @@ void fnvDrawMenuList(void)
     fnvIncDecSelectedItemMenu();
     u8g2.drawXBMP(0, 0, 128, 64, backgroundMenuList);
 
-    u8g2.drawXBMP(5, 2, 16, 16, pucMenuIcons[iPreviusItem]);
+    u8g2.drawXBMP(5, 2, 16, 16, stMenuTable[iPreviusItem].pucMenuIcons);
     u8g2.setFont(u8g2_font_t0_11_mr);
     u8g2.drawStr(24, 14, stMenuTable[iPreviusItem].pucMenuName);
 
-    u8g2.drawXBMP(5, 24, 16, 16, pucMenuIcons[iSelectedItem]);
+    u8g2.drawXBMP(5, 24, 16, 16, stMenuTable[iSelectedItem].pucMenuIcons);
     u8g2.setFont(u8g2_font_t0_11b_mr);
     u8g2.drawStr(24, 36, stMenuTable[iSelectedItem].pucMenuName);
 
-    u8g2.drawXBMP(5, 45, 16, 16, pucMenuIcons[iNextItem]);
+    u8g2.drawXBMP(5, 45, 16, 16, stMenuTable[iNextItem].pucMenuIcons);
     u8g2.setFont(u8g2_font_t0_11_mr);
     u8g2.drawStr(24, 58, stMenuTable[iNextItem].pucMenuName);
 

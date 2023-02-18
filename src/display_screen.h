@@ -17,8 +17,10 @@
 #endif
 
 /* GLOBAL VARIABLES */
-const int NUMBER_ITEMS_MENU = 8;
-const int MAX_LENGHT_TEXT = 14;
+//empty
+
+/* PRIVATE FUNCTIONS */
+void fnvNothingHere();
 
 /* 16x16 ICONS */
 static const unsigned char config_icon[] U8X8_PROGMEM  = 
@@ -98,7 +100,6 @@ static const unsigned char return_icon[] U8X8_PROGMEM  =
   0xE0, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-
 typedef enum
 {
   MENU_LOCALIZATION,
@@ -114,46 +115,29 @@ typedef enum
 typedef struct
 {
   EnMenuListItems enMenuItem;
+  const unsigned char *pucMenuIcons;
   char *pucMenuName;
   void (*pvFunction)();
 }StMenuListAction;
 
 static const StMenuListAction stMenuTable[] =
 {
-  {MENU_LOCALIZATION,       "Localization",                             NULL},
-  {MENU_BLUETOOTH,          "Bluetooth",                                NULL},
-  {MENU_BATTERY,            "Battery",                                  NULL},
-  {MENU_CLOCK,              "Clock",                                    NULL},
-  {MENU_ALERTS,             "Alerts",                                   NULL},
-  {MENU_GAUGE,              "Gauge",                                    NULL},
-  {MENU_SOUND,              "Sound",                  &fnvBuzzerToggleStatus},
-  {MENU_CONFIGURATION,      "Configuration",          &fnvDrawBrightnessMenu},
+  /*MENU INDEX              16x16 ICON            MENU NAME                 FUNCTION              */
+  {MENU_LOCALIZATION,       localization_icon,    "Localization",           &fnvNothingHere       },
+  {MENU_BLUETOOTH,          bluetooth_icon,       "Bluetooth",              &fnvNothingHere       },
+  {MENU_BATTERY,            battery_icon,         "Battery",                &fnvNothingHere       },
+  {MENU_CLOCK,              clock_icon,           "Clock",                  &fnvNothingHere       },
+  {MENU_ALERTS,             exclamation_icon,     "Alerts",                 &fnvNothingHere       },
+  {MENU_GAUGE,              gauge_icon,           "Gauge",                  &fnvNothingHere       },
+  {MENU_SOUND,              soundon_icon,         "Sound",                  &fnvBuzzerToggleStatus},
+  {MENU_CONFIGURATION,      config_icon,          "Configuration",          &fnvDrawBrightnessMenu},
 };
-#define MENU_TABLE_SIZE (sizeof(stMenuTable)/sizeof(StMenuListAction))
+#define MENU_TABLE_SIZE (int)(sizeof(stMenuTable)/sizeof(StMenuListAction))
 
-char cMenuItems[NUMBER_ITEMS_MENU][MAX_LENGHT_TEXT] =
+void fnvNothingHere()
 {
-  {"Localization"   },
-  {"Bluetooth"      },
-  {"Battery"        },
-  {"Clock"          },
-  {"Alerts"         },
-  {"Gauge"          },
-  {"Sound"          },
-  {"Configuration"  },
-};
-
-const unsigned char* pucMenuIcons[8] =
-{
-  localization_icon,
-  bluetooth_icon,
-  battery_icon,
-  clock_icon,
-  exclamation_icon,
-  gauge_icon,
-  soundon_icon,
-  config_icon,
-};
+  //Nothing here
+}
 
 /* DISPLAY ITEMS */
 static const unsigned char backgroundMenuList[] U8X8_PROGMEM  = 
