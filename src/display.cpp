@@ -55,43 +55,54 @@ void fnvIncDecSelectedItemMenu(void)
 {
   int buttonValue = fniButtonPressed();
 
-  if (buttonValue == BUTTON_DOWN)
+  switch (buttonValue)
   {
-    iSelectedItem--;
-    if (iSelectedItem < 0)
+    case BUTTON_UP:
     {
-      iSelectedItem = MENU_TABLE_SIZE - 1;
-    }
-  }
-  else if (buttonValue == BUTTON_UP)
-  {
-    iSelectedItem++;
-    if (iSelectedItem >= MENU_TABLE_SIZE)
-    {
-      iSelectedItem = 0;
-    }
-  }
-  else if (buttonValue == BUTTON_SELECT)
-  {
-    switch (stMenuTable[iSelectedItem].enMenuItem)
-    {
-      case MENU_SOUND:
+      iSelectedItem++;
+      if (iSelectedItem >= MENU_TABLE_SIZE)
       {
-        // To call a function:
-        stMenuTable[iSelectedItem].pvFunction();
+        iSelectedItem = 0;
       }
-      break;
-
-      case MENU_CONFIGURATION:
-      {
-        // To change screen:
-        changeScreen = stMenuTable[iSelectedItem].pvFunction;
-      }
-      break;
-
-      default:
-      break;
     }
+    break;
+
+    case BUTTON_DOWN:
+    {
+      iSelectedItem--;
+      if (iSelectedItem < 0)
+      {
+        iSelectedItem = MENU_TABLE_SIZE - 1;
+      }
+    }
+    break;
+
+    case BUTTON_SELECT:
+    {
+      switch (stMenuTable[iSelectedItem].enMenuItem)
+      {
+        case MENU_SOUND:
+        {
+          // To call a function:
+          stMenuTable[iSelectedItem].pvFunction();
+        }
+        break;
+
+        case MENU_CONFIGURATION:
+        {
+          // To change screen:
+          changeScreen = stMenuTable[iSelectedItem].pvFunction;
+        }
+        break;
+
+        default:
+        break;
+      }
+    }
+    break;
+
+    default:
+    break;
   }
 
   if (iPreviusItem < 0)
@@ -176,7 +187,6 @@ void fnvIncDecBrightness(void)
   }
   else if (buttonValue == BUTTON_SELECT)
   {
-    // fnvDrawMenuList();
     changeScreen = fnvDrawMenuList;
   }
 }
