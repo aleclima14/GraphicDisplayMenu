@@ -139,7 +139,7 @@ void fnvNothingHere()
   //Nothing here
 }
 
-/* DISPLAY ITEMS */
+/* BACKGROUND ITEMS */
 static const unsigned char backgroundMenuList[] U8X8_PROGMEM  = 
 {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
