@@ -147,6 +147,10 @@ void fnvDrawMenuList(void)
   } while (u8g2.nextPage());
 }
 
+/**
+ * @brief Draw Brightness menu
+ * 
+ */
 void fnvDrawBrightnessMenu(void)
 {
   int brightnessBarValue = (brightnessValue * 100) / 250;
@@ -168,25 +172,37 @@ void fnvDrawBrightnessMenu(void)
   } while (u8g2.nextPage());
 }
 
+/**
+ * @brief Check buttons and set brightness
+ * 
+ */
 void fnvIncDecBrightness(void)
 {
   int buttonValue = fniButtonPressed();
   brightnessValue = EEPROM.read(BACKLIGHT_ADDRESS);
 
-  if (buttonValue == BUTTON_UP)
+  switch(buttonValue)
   {
-    brightnessValue+=25;
-    if(brightnessValue > 250) brightnessValue = 250;
-    fnvBacklightSetValue(brightnessValue);
-  }
-  else if (buttonValue == BUTTON_DOWN)
-  {
-    brightnessValue-=25;
-    if(brightnessValue < 0) brightnessValue = 0;
-    fnvBacklightSetValue(brightnessValue);
-  }
-  else if (buttonValue == BUTTON_SELECT)
-  {
-    changeScreen = fnvDrawMenuList;
+    case BUTTON_UP:
+    {
+      brightnessValue+=25;
+      if(brightnessValue > 250) brightnessValue = 250;
+      fnvBacklightSetValue(brightnessValue);
+    }
+    break;
+
+    case BUTTON_DOWN:
+    {
+      brightnessValue-=25;
+      if(brightnessValue < 0) brightnessValue = 0;
+      fnvBacklightSetValue(brightnessValue);
+    }
+    break;
+
+    case BUTTON_SELECT:
+    {
+      changeScreen = fnvDrawMenuList;
+    }
+    break;
   }
 }
