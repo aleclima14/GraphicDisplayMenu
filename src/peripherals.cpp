@@ -45,7 +45,7 @@ void fnvBuzzerPlay(int frequency, int duration)
 
     for (int i = 0; i < duration / (periode); i++)
     {
-      digitalWrite(BUZZER_PIN,HIGH);
+      digitalWrite(BUZZER_PIN, HIGH);
       delayMicroseconds(periode * 500);
       digitalWrite(BUZZER_PIN, LOW);
       delayMicroseconds(periode * 500);
