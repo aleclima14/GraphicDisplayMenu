@@ -10,7 +10,7 @@ U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, SCK_PIN, MOSI_PIN, CS_PIN, RESET_PIN);
 /* PRIVATE FUNCTIONS */
 void fnvIncDecSelectedItemMenu(void);
 void fnvIncDecBrightness(void);
-void (*changeScreen)();
+void (*pfvChangeScreen)();
 
 /* GLOBAL VARIABLES */
 int iPreviusItem;
@@ -28,7 +28,7 @@ void fnvDisplayInit(void)
   pinMode(ENABLE_BACKLIGHT, OUTPUT);
   int backlightEEPROMValue = EEPROM.read(BACKLIGHT_ADDRESS);
   analogWrite(ENABLE_BACKLIGHT, backlightEEPROMValue);
-  changeScreen = fnvDrawMenuList;
+  pfvChangeScreen = fnvDrawMenuList;
 }
 
 /**
@@ -91,7 +91,7 @@ void fnvIncDecSelectedItemMenu(void)
         case MENU_CONFIGURATION:
         {
           // To change screen:
-          changeScreen = stMenuTable[iSelectedItem].pvFunction;
+          pfvChangeScreen = stMenuTable[iSelectedItem].pvFunction;
         }
         break;
 
@@ -201,7 +201,7 @@ void fnvIncDecBrightness(void)
 
     case BUTTON_SELECT:
     {
-      changeScreen = fnvDrawMenuList;
+      pfvChangeScreen = fnvDrawMenuList;
     }
     break;
   }

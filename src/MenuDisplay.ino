@@ -8,7 +8,7 @@
 #include "configuration.h"
 #include "peripherals.h"
 
-extern void (*changeScreen)();
+extern void (*pfvChangeScreen)();
 
 void setup()
 {
@@ -19,5 +19,5 @@ void setup()
 
 void loop()
 {
-  (*changeScreen)();
+  (*pfvChangeScreen)();
 }
