@@ -10,13 +10,14 @@ U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, SCK_PIN, MOSI_PIN, CS_PIN, RESET_PIN);
 /* PRIVATE FUNCTIONS */
 void fnvIncDecSelectedItemMenu(void);
 void fnvIncDecBrightness(void);
+void fnvWriteBacklightValue(int value);
 void (*pfvChangeScreen)();
 
 /* GLOBAL VARIABLES */
 int iPreviusItem;
 int iNextItem;
 int iSelectedItem = 0;
-int brightnessValue;
+int brightnessValue = EERead(BACKLIGHT_ADDRESS);
 
 /**
  * @brief Init u8g2 lib and backlight display
@@ -40,11 +41,18 @@ void fnvBacklightSetValue(int valuePWM)
 {
   if (valuePWM > 250) valuePWM = 250;
   if (valuePWM < 0) valuePWM = 0;
-  
-  EEWrite(BACKLIGHT_ADDRESS, valuePWM);
 
-  int backlightEEPROMValue = EERead(BACKLIGHT_ADDRESS);
-  analogWrite(ENABLE_BACKLIGHT, backlightEEPROMValue);
+  analogWrite(ENABLE_BACKLIGHT, valuePWM);
+}
+
+/**
+ * @brief Write bightness into BACKLIGHT_ADDRESS
+ * 
+ * @param brightnessWriteValue 
+ */
+void fnvWriteBacklightValue(int brightnessWriteValue)
+{
+  EEWrite(BACKLIGHT_ADDRESS, brightnessWriteValue);
 }
 
 /**
@@ -179,7 +187,7 @@ void fnvDrawBrightnessMenu(void)
 void fnvIncDecBrightness(void)
 {
   int buttonValue = fniButtonPressed();
-  brightnessValue = EERead(BACKLIGHT_ADDRESS);
+  // brightnessValue = EERead(BACKLIGHT_ADDRESS);
 
   switch(buttonValue)
   {
@@ -201,6 +209,7 @@ void fnvIncDecBrightness(void)
 
     case BUTTON_SELECT:
     {
+      fnvWriteBacklightValue(brightnessValue);
       pfvChangeScreen = fnvDrawMenuList;
     }
     break;
