@@ -52,7 +52,13 @@ void fnvBacklightSetValue(int valuePWM)
  */
 void fnvWriteBacklightValue(int brightnessWriteValue)
 {
-  EEWrite(BACKLIGHT_ADDRESS, brightnessWriteValue);
+  if(brightnessValue != EERead(BACKLIGHT_ADDRESS))
+  {
+    EEWrite(BACKLIGHT_ADDRESS, brightnessWriteValue);
+    fnvBuzzerPlay(1000, 50);
+    fnvBuzzerPlay(4000, 50);
+    fnvBuzzerPlay(1000, 50);
+  }
 }
 
 /**
@@ -187,7 +193,6 @@ void fnvDrawBrightnessMenu(void)
 void fnvIncDecBrightness(void)
 {
   int buttonValue = fniButtonPressed();
-  // brightnessValue = EERead(BACKLIGHT_ADDRESS);
 
   switch(buttonValue)
   {
