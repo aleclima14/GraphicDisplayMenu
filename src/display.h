@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "configuration.h"
 #include <U8g2lib.h>
-#include <EEPROM.h>
+#include "eeprom_app.h"
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
 #endif

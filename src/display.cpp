@@ -26,7 +26,7 @@ void fnvDisplayInit(void)
 {
   u8g2.begin();
   pinMode(ENABLE_BACKLIGHT, OUTPUT);
-  int backlightEEPROMValue = EEPROM.read(BACKLIGHT_ADDRESS);
+  int backlightEEPROMValue = EERead(BACKLIGHT_ADDRESS);
   analogWrite(ENABLE_BACKLIGHT, backlightEEPROMValue);
   pfvChangeScreen = fnvDrawMenuList;
 }
@@ -41,9 +41,9 @@ void fnvBacklightSetValue(int valuePWM)
   if (valuePWM > 250) valuePWM = 250;
   if (valuePWM < 0) valuePWM = 0;
   
-  EEPROM.write(BACKLIGHT_ADDRESS, valuePWM);
+  EEWrite(BACKLIGHT_ADDRESS, valuePWM);
 
-  int backlightEEPROMValue = EEPROM.read(BACKLIGHT_ADDRESS);
+  int backlightEEPROMValue = EERead(BACKLIGHT_ADDRESS);
   analogWrite(ENABLE_BACKLIGHT, backlightEEPROMValue);
 }
 
@@ -179,7 +179,7 @@ void fnvDrawBrightnessMenu(void)
 void fnvIncDecBrightness(void)
 {
   int buttonValue = fniButtonPressed();
-  brightnessValue = EEPROM.read(BACKLIGHT_ADDRESS);
+  brightnessValue = EERead(BACKLIGHT_ADDRESS);
 
   switch(buttonValue)
   {
