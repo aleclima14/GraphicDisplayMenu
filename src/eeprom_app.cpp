@@ -11,24 +11,27 @@
 //empty
 
 /**
- * @brief Write value in EEPROM Address
+ * @brief Write value in EEPROM Address only if the value is different from the previous one. This prevents unnecessary recording
  * 
  * @param eeprom_address 
  * @param eeprom_value 
- * @return true 
+ * @return true if it is written right
  * @return false 
  */
 bool EEWrite(int eeprom_address, int eeprom_value)
 {
-   bool bRightWrite = false;
+   bool flagIsWrittenRight = false;
 
    int iEepromAfterWriteValue = EERead(eeprom_address);
-   EEPROM.write(eeprom_address, eeprom_value);
+   if(eeprom_value != iEepromAfterWriteValue)
+   {
+      EEPROM.write(eeprom_address, eeprom_value);
+   }
    int iEepromBeforeWriteValue = EERead(eeprom_address);
 
-   iEepromAfterWriteValue == iEepromBeforeWriteValue ? bRightWrite = true : bRightWrite = false;
+   eeprom_value == iEepromBeforeWriteValue ? flagIsWrittenRight = true : flagIsWrittenRight = false;
 
-   return bRightWrite;
+   return flagIsWrittenRight;
 }
 
 int EERead(int eeprom_address)
