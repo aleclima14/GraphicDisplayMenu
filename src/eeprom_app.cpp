@@ -2,7 +2,7 @@
 * Alecsander Lima
 * aleclima14@gmail.com
 * Campinas, SP - 18/fev/2023
- */
+*/
 
 /* INCLUDES */
 #include "eeprom_app.h"

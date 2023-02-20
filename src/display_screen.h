@@ -2,7 +2,7 @@
 * Alecsander Lima
 * aleclima14@gmail.com
 * Campinas, SP - 05/fev/2023
- */
+*/
 
 #ifndef __diplay_screen_h__
 #define __diplay_screen_h__
