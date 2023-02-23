@@ -10,7 +10,7 @@
 /* INCLUDES */
 #include "Arduino.h"
 #include "configuration.h"
-#include "display.h"
+#include "eeprom_app.h"
 
 /* DEFINES */
 #define DEBOUCE_BUTTON  300

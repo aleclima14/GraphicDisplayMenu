@@ -5,10 +5,6 @@
 */
 
 #include "display.h"
-#include "configuration.h"
-#include <U8g2lib.h>
-#include "peripherals.h"
-#include "display_screen.h"
 
 U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, SCK_PIN, MOSI_PIN, CS_PIN, RESET_PIN);
 

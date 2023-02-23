@@ -10,7 +10,6 @@
 /* INCLUDES */
 #include "Arduino.h"
 #include "configuration.h"
-#include "display.h"
 #include <U8g2lib.h>
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
@@ -18,9 +17,6 @@
 
 /* GLOBAL VARIABLES */
 //empty
-
-/* PRIVATE FUNCTIONS */
-void fnvNothingHere();
 
 /* 16x16 ICONS */
 static const unsigned char config_icon[] U8X8_PROGMEM  = 
@@ -99,45 +95,6 @@ static const unsigned char return_icon[] U8X8_PROGMEM  =
   0x10, 0x0C, 0x08, 0x04, 0x08, 0x00, 0x08, 0x00, 0x08, 0x00, 0x10, 0x00, 
   0xE0, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
-
-typedef enum
-{
-  MENU_LOCALIZATION,
-  MENU_BLUETOOTH,
-  MENU_BATTERY,
-  MENU_CLOCK,
-  MENU_ALERTS,
-  MENU_GAUGE,
-  MENU_SOUND,
-  MENU_CONFIGURATION,
-}EnMenuListItems;
-
-typedef struct
-{
-  EnMenuListItems enMenuItem;
-  const unsigned char *pucMenuIcons;
-  char *pucMenuName;
-  void (*pvFunction)();
-}StMenuListAction;
-
-static const StMenuListAction stMenuTable[] =
-{
-  /*MENU INDEX              16x16 ICON            MENU NAME                 FUNCTION              */
-  {MENU_LOCALIZATION,       localization_icon,    "Localization",           &fnvNothingHere       },
-  {MENU_BLUETOOTH,          bluetooth_icon,       "Bluetooth",              &fnvNothingHere       },
-  {MENU_BATTERY,            battery_icon,         "Battery",                &fnvNothingHere       },
-  {MENU_CLOCK,              clock_icon,           "Clock",                  &fnvNothingHere       },
-  {MENU_ALERTS,             exclamation_icon,     "Alerts",                 &fnvNothingHere       },
-  {MENU_GAUGE,              gauge_icon,           "Gauge",                  &fnvNothingHere       },
-  {MENU_SOUND,              soundon_icon,         "Sound",                  &fnvBuzzerToggleStatus},
-  {MENU_CONFIGURATION,      config_icon,          "Configuration",          &fnvDrawBrightnessMenu},
-};
-#define MENU_TABLE_SIZE (int)(sizeof(stMenuTable)/sizeof(StMenuListAction))
-
-void fnvNothingHere()
-{
-  //Nothing here
-}
 
 /* BACKGROUND ITEMS */
 static const unsigned char backgroundMenuList[] U8X8_PROGMEM  = 
