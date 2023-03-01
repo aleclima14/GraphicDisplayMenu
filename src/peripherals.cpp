@@ -94,7 +94,7 @@ int fniButtonPressed()
 {
   int returnButton = 0;
 
-  buttonUP = digitalRead(BUTTON2_PIN);
+  buttonUP = digitalRead(BUTTON1_PIN);
   if(!buttonUP)
   {
     if((millis() - ulDebounceUP) > DEBOUCE_BUTTON)
@@ -105,7 +105,7 @@ int fniButtonPressed()
     }
   }
 
-  buttonDW = digitalRead(BUTTON1_PIN);
+  buttonDW = digitalRead(BUTTON2_PIN);
   if(!buttonDW)
   {
     if((millis() - ulDebounceDW) > DEBOUCE_BUTTON)
