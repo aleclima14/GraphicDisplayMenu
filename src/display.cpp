@@ -22,10 +22,6 @@ int iSelectedItem = 0;
 int brightnessValue = EERead(BACKLIGHT_ADDRESS);
 
 int iSelectedSubMenuItem = 0;
-int umpos = 0;
-int doispos = 1;
-int trespos = 2;
-int quatropos = 3;
 
 /**
  * @brief Init u8g2 lib and backlight display
