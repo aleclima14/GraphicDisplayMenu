@@ -40,9 +40,7 @@ void fnvBuzzerInit()
  */
 void fnvBuzzerPlay(int frequency, int duration)
 {
-  int buzzerEnable = EERead(BUZZER_ADDRESS);
-
-  if (buzzerEnable > 0)
+  if (EERead(BUZZER_ADDRESS) > 0)
   {
     float periode = 1000.0 / frequency;
 

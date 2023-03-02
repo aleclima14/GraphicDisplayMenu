@@ -27,6 +27,7 @@ void fnvToggleBacklight(void);
 void fnvIncDecBrightness(void);
 void fnvNothingHere();
 
+/* ENUM */
 typedef enum
 {
   MENU_LOCALIZATION,
@@ -38,28 +39,6 @@ typedef enum
   MENU_SOUND,
   MENU_CONFIGURATION,
 }EnMainMenuItems;
-
-typedef struct
-{
-  EnMainMenuItems enMenuItem;
-  const unsigned char *pucMenuIcons;
-  const char *pucMenuName;
-  void (*pvFunction)();
-}StMainMenuList;
-
-static const StMainMenuList stMainMenuTable[] =
-{
-  /*MENU INDEX              16x16 ICON            MENU NAME                 FUNCTION              */
-  {MENU_LOCALIZATION,       localization_icon,    "Localization",           NULL                  },
-  {MENU_BLUETOOTH,          bluetooth_icon,       "Bluetooth",              NULL                  },
-  {MENU_BATTERY,            battery_icon,         "Battery",                NULL                  },
-  {MENU_CLOCK,              clock_icon,           "Clock",                  NULL                  },
-  {MENU_ALERTS,             exclamation_icon,     "Alerts",                 NULL                  },
-  {MENU_GAUGE,              gauge_icon,           "Gauge",                  NULL                  },
-  {MENU_CONFIGURATION,      config_icon,          "Configuration",          &fnvDrawConfigMenuList},
-};
-#define MAIN_MENU_TABLE_SIZE (int)(sizeof(stMainMenuTable)/sizeof(StMainMenuList))
-
 
 typedef enum
 {
@@ -77,12 +56,51 @@ typedef enum
   SUBMENU_CONFIG_RETURN
 }EnSubMenuConfigurationItems;
 
+typedef enum
+{
+  BRIGHTNESS_1,
+  BRIGHTNESS_2,
+  BRIGHTNESS_3,
+  BRIGHTNESS_4,
+  BRIGHTNESS_5,
+}EnBrightnessLevel;
+
+/* STRUCT */
+typedef struct
+{
+  EnMainMenuItems enMenuItem;
+  const unsigned char *pucMenuIcons;
+  const char *pucMenuName;
+  void (*pvFunction)();
+}StMainMenuList;
+
 typedef struct
 {
   EnSubMenuConfigurationItems enMenuItem;
   const char *pucMenuName;
   void (*pvFunction)();
 }StSubMenuConfigList;
+
+typedef struct
+{
+  EnBrightnessLevel level;
+  const char *levelName;
+  const int integerValue;
+}StBrightnessLevel;
+
+/* TABLE */
+static const StMainMenuList stMainMenuTable[] =
+{
+  /*MENU INDEX              16x16 ICON            MENU NAME                 FUNCTION              */
+  {MENU_LOCALIZATION,       localization_icon,    "Localization",           NULL                  },
+  {MENU_BLUETOOTH,          bluetooth_icon,       "Bluetooth",              NULL                  },
+  {MENU_BATTERY,            battery_icon,         "Battery",                NULL                  },
+  {MENU_CLOCK,              clock_icon,           "Clock",                  NULL                  },
+  {MENU_ALERTS,             exclamation_icon,     "Alerts",                 NULL                  },
+  {MENU_GAUGE,              gauge_icon,           "Gauge",                  NULL                  },
+  {MENU_CONFIGURATION,      config_icon,          "Configuration",          &fnvDrawConfigMenuList},
+};
+#define MAIN_MENU_TABLE_SIZE (int)(sizeof(stMainMenuTable)/sizeof(StMainMenuList))
 
 static const StSubMenuConfigList stSubMenuConfigTable[] = 
 {
@@ -93,23 +111,6 @@ static const StSubMenuConfigList stSubMenuConfigTable[] =
   {SUBMENU_CONFIG_RETURN,                 "Back",               &fnvDrawMainMenuList        },
 };
 #define CONFIG_MENU_TABLE_SIZE (int)(sizeof(stSubMenuConfigTable)/sizeof(StSubMenuConfigList))
-
-
-typedef enum
-{
-  BRIGHTNESS_1,
-  BRIGHTNESS_2,
-  BRIGHTNESS_3,
-  BRIGHTNESS_4,
-  BRIGHTNESS_5,
-}EnBrightnessLevel;
-
-typedef struct
-{
-  EnBrightnessLevel level;
-  const char *levelName;
-  const int integerValue;
-}StBrightnessLevel;
 
 static const StBrightnessLevel stBrightnessList[] =
 {

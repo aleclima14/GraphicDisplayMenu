@@ -20,7 +20,6 @@ int iNextItem;
 int iSelectedItem = 0;
 int brightnessValue = EERead(BACKLIGHT_ADDRESS);
 int iSelectedSubMenuItem = 0;
-
 // Adjusts the initial value to be between 0 and 4
 int brightnessSelect = brightnessValue / 55;
 
@@ -32,8 +31,7 @@ void fnvDisplayInit(void)
 {
   u8g2.begin();
   pinMode(ENABLE_BACKLIGHT, OUTPUT);
-  int backlightEEPROMValue = EERead(BACKLIGHT_ADDRESS);
-  analogWrite(ENABLE_BACKLIGHT, backlightEEPROMValue);
+  analogWrite(ENABLE_BACKLIGHT, EERead(BACKLIGHT_ADDRESS));
   pfvChangeScreen = fnvDrawMainMenuList;
 }
 
@@ -67,7 +65,7 @@ void fnvWriteBacklightValue(int brightnessWriteValue)
 }
 
 /**
- * @brief Draw menu 
+ * @brief Draw Main Menu 
  * 
  */
 void fnvDrawMainMenuList(void)
@@ -105,9 +103,7 @@ void fnvDrawMainMenuList(void)
  */
 void fnvIncDecSelectedItemMenu(void)
 {
-  int buttonValue = fniButtonPressed();
-
-  switch (buttonValue)
+  switch (fniButtonPressed())
   {
     case BUTTON_UP:
     {
@@ -218,14 +214,12 @@ void fnvDrawConfigMenuList(void)
 }
 
 /**
- * @brief 
+ * @brief Config submenu navigation logic
  * 
  */
 void fnvIncDecSelectedSubMenuItem(void)
 {
-  int buttonValue = fniButtonPressed();
-
-  switch (buttonValue)
+  switch (fniButtonPressed())
   {
     case BUTTON_UP:
     {
