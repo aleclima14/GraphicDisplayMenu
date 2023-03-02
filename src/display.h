@@ -23,8 +23,9 @@ void fnvDisplayInit(void);
 void fnvBacklightSetValue(int valuePWM);
 void fnvDrawMainMenuList(void);
 void fnvDrawConfigMenuList(void);
-void fnvDrawBrightnessMenu(void);
 void fnvToggleBacklight(void);
+void fnvIncDecBrightness(void);
+void fnvNothingHere();
 
 typedef enum
 {
@@ -42,7 +43,7 @@ typedef struct
 {
   EnMainMenuItems enMenuItem;
   const unsigned char *pucMenuIcons;
-  char *pucMenuName;
+  const char *pucMenuName;
   void (*pvFunction)();
 }StMainMenuList;
 
@@ -55,8 +56,6 @@ static const StMainMenuList stMainMenuTable[] =
   {MENU_CLOCK,              clock_icon,           "Clock",                  NULL                  },
   {MENU_ALERTS,             exclamation_icon,     "Alerts",                 NULL                  },
   {MENU_GAUGE,              gauge_icon,           "Gauge",                  NULL                  },
-  // {MENU_SOUND,              soundon_icon,         "Sound",                  &fnvBuzzerToggleStatus},
-  // {MENU_CONFIGURATION,      config_icon,          "Configuration",          &fnvDrawBrightnessMenu},
   {MENU_CONFIGURATION,      config_icon,          "Configuration",          &fnvDrawConfigMenuList},
 };
 #define MAIN_MENU_TABLE_SIZE (int)(sizeof(stMainMenuTable)/sizeof(StMainMenuList))
@@ -81,18 +80,45 @@ typedef enum
 typedef struct
 {
   EnSubMenuConfigurationItems enMenuItem;
-  char *pucMenuName;
+  const char *pucMenuName;
   void (*pvFunction)();
 }StSubMenuConfigList;
 
 static const StSubMenuConfigList stSubMenuConfigTable[] = 
 {
   /*MENU INDEX                            MENU NAME             FUNCTION                    */
-  {SUBMENU_CONFIG_BRIGHTNESS,             "Brightness",         &fnvDrawBrightnessMenu      },
-  {SUBMENU_CONFIG_BACKLIGHT,              "Backlight",          NULL                        },
+  {SUBMENU_CONFIG_BRIGHTNESS,             "Brightness",         &fnvIncDecBrightness        },
+  {SUBMENU_CONFIG_BACKLIGHT,              "Backlight",          &fnvNothingHere             },
   {SUBMENU_CONFIG_SOUND,                  "Sound",              &fnvBuzzerToggleStatus      },
   {SUBMENU_CONFIG_RETURN,                 "Back",               &fnvDrawMainMenuList        },
 };
 #define CONFIG_MENU_TABLE_SIZE (int)(sizeof(stSubMenuConfigTable)/sizeof(StSubMenuConfigList))
+
+
+typedef enum
+{
+  BRIGHTNESS_1,
+  BRIGHTNESS_2,
+  BRIGHTNESS_3,
+  BRIGHTNESS_4,
+  BRIGHTNESS_5,
+}EnBrightnessLevel;
+
+typedef struct
+{
+  EnBrightnessLevel level;
+  const char *levelName;
+  const int integerValue;
+}StBrightnessLevel;
+
+static const StBrightnessLevel stBrightnessList[] =
+{
+  {BRIGHTNESS_1,      "O",        0   },
+  {BRIGHTNESS_2,      "25",       25  },
+  {BRIGHTNESS_3,      "5O",       50  },
+  {BRIGHTNESS_4,      "75",       75  },
+  {BRIGHTNESS_5,      "1OO",      100 },
+};
+#define BRIGHTNESS_LEVELS_SIZE (int)(sizeof(stBrightnessList)/sizeof(StBrightnessLevel))
 
 #endif /* __diplay_h__ */

@@ -11,7 +11,6 @@ U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, SCK_PIN, MOSI_PIN, CS_PIN, RESET_PIN);
 /* PRIVATE FUNCTIONS */
 void fnvIncDecSelectedItemMenu(void);
 void fnvIncDecSelectedSubMenuItem(void);
-void fnvIncDecBrightness(void);
 void fnvWriteBacklightValue(int value);
 void (*pfvChangeScreen)();
 
@@ -20,8 +19,10 @@ int iPreviusItem;
 int iNextItem;
 int iSelectedItem = 0;
 int brightnessValue = EERead(BACKLIGHT_ADDRESS);
-
 int iSelectedSubMenuItem = 0;
+
+// Adjusts the initial value to be between 0 and 4
+int brightnessSelect = brightnessValue / 55;
 
 /**
  * @brief Init u8g2 lib and backlight display
@@ -74,10 +75,11 @@ void fnvDrawMainMenuList(void)
   iPreviusItem = iSelectedItem - 1;
   iNextItem = iSelectedItem + 1;
   iSelectedSubMenuItem = 0;
-
+  
   u8g2.firstPage();
   do
   {
+    u8g2.setDrawColor(1);
     fnvIncDecSelectedItemMenu();
     u8g2.drawXBMP(0, 0, 128, 64, backgroundMenuList);
 
@@ -180,22 +182,39 @@ void fnvDrawConfigMenuList(void)
     u8g2.drawLine(125, 1, 125, 63);
     u8g2.drawBox(124, 64 / CONFIG_MENU_TABLE_SIZE * iSelectedSubMenuItem, 3, 64 / CONFIG_MENU_TABLE_SIZE);
     u8g2.drawXBMP(2, 1+iSelectedSubMenuItem*15, 116, 16, submenuSelectBar);
-    
+
     u8g2.setFontMode(1);
     u8g2.setDrawColor(2);
     u8g2.setFont(u8g2_font_t0_11_mr);
     u8g2.drawStr(6, 13, stSubMenuConfigTable[0].pucMenuName);
+    u8g2.drawStr(85, 13, "<   >");
+
+    if(stBrightnessList[brightnessSelect].integerValue > 99)
+    {
+      u8g2.drawStr(91, 13, stBrightnessList[brightnessSelect].levelName);
+    }
+    else if(stBrightnessList[brightnessSelect].integerValue < 10)
+    {
+      u8g2.drawStr(97, 13, stBrightnessList[brightnessSelect].levelName);
+    }
+    else
+    {
+      u8g2.drawStr(94, 13, stBrightnessList[brightnessSelect].levelName);
+    }
 
     u8g2.setFont(u8g2_font_t0_11_mr);
     u8g2.drawStr(6, 28, stSubMenuConfigTable[1].pucMenuName);
+    // u8g2.drawStr(85, 28, "<   >");
 
     u8g2.setFont(u8g2_font_t0_11_mr);
     u8g2.drawStr(6, 43, stSubMenuConfigTable[2].pucMenuName);
+    u8g2.drawStr(85, 43, "<   >");
+    EERead(BUZZER_ADDRESS) > 0 ? u8g2.drawStr(94, 43, "On"): u8g2.drawStr(91, 43, "Off");
+
 
     u8g2.setFont(u8g2_font_t0_11_mr);
     u8g2.drawStr(6, 58, stSubMenuConfigTable[3].pucMenuName);
   }while (u8g2.nextPage());
-
 }
 
 /**
@@ -210,27 +229,17 @@ void fnvIncDecSelectedSubMenuItem(void)
   {
     case BUTTON_UP:
     {
-      if (iSelectedSubMenuItem == 0)
-      {
-        iSelectedSubMenuItem = 0;
-      }
-      else 
-      {
-        iSelectedSubMenuItem--;
-      }
+      if (iSelectedSubMenuItem == 0) iSelectedSubMenuItem = 0;
+      else iSelectedSubMenuItem--;
+      fnvWriteBacklightValue(brightnessValue);
     }
     break;
 
     case BUTTON_DOWN:
     {
-      if (iSelectedSubMenuItem >= CONFIG_MENU_TABLE_SIZE-1)
-      {
-        iSelectedSubMenuItem = CONFIG_MENU_TABLE_SIZE-1;
-      }
-      else
-      {
-        iSelectedSubMenuItem++;
-      }
+      if (iSelectedSubMenuItem >= CONFIG_MENU_TABLE_SIZE-1) iSelectedSubMenuItem = CONFIG_MENU_TABLE_SIZE-1;
+      else iSelectedSubMenuItem++;
+      fnvWriteBacklightValue(brightnessValue);
     }
     break;
 
@@ -238,28 +247,16 @@ void fnvIncDecSelectedSubMenuItem(void)
     {
       switch (stSubMenuConfigTable[iSelectedSubMenuItem].enMenuItem)
       {
-        case SUBMENU_CONFIG_BRIGHTNESS:
-        {
-          // To change screen:
-          pfvChangeScreen = stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction;
-        }
-        break;
-
-        case SUBMENU_CONFIG_SOUND:
-        {
-          // To call a function:
-          stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction();
-        }
-        break;
-
         case SUBMENU_CONFIG_RETURN:
         {
-          // To change screen:
           pfvChangeScreen = stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction;
         }
         break;
 
         default:
+        {
+          stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction();
+        }
         break;
       }
     }
@@ -271,61 +268,18 @@ void fnvIncDecSelectedSubMenuItem(void)
 }
 
 /**
- * @brief Draw Brightness menu
- * 
- */
-void fnvDrawBrightnessMenu(void)
-{
-  int brightnessBarValue = (brightnessValue * 100) / 250;
-  u8g2.firstPage();
-  do
-  {
-    fnvIncDecBrightness();
-    u8g2.drawXBMP(0, 0, 128, 64, backgroundBrightnessMenu);
-    
-    u8g2.drawXBMP(5, 3, 16, 16, brightness_icon); 
-    u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(24, 15, "Brightness Menu <");
-
-    u8g2.drawXBMP(50, 42, 16, 16, return_icon);
-    u8g2.drawStr(65, 55, "Ok"); 
-
-    u8g2.drawBox(14, 27, brightnessBarValue, 5);
-    
-  } while (u8g2.nextPage());
-}
-
-/**
  * @brief Check buttons and set brightness
  * 
  */
 void fnvIncDecBrightness(void)
 {
-  int buttonValue = fniButtonPressed();
+  brightnessSelect--;
+  if(brightnessSelect < BRIGHTNESS_1) brightnessSelect = BRIGHTNESS_5;
+  brightnessValue = stBrightnessList[brightnessSelect].integerValue * 250/100;
+  fnvBacklightSetValue(brightnessValue);
+}
 
-  switch(buttonValue)
-  {
-    case BUTTON_UP:
-    {
-      brightnessValue+=25;
-      if(brightnessValue > 250) brightnessValue = 250;
-      fnvBacklightSetValue(brightnessValue);
-    }
-    break;
-
-    case BUTTON_DOWN:
-    {
-      brightnessValue-=25;
-      if(brightnessValue < 0) brightnessValue = 0;
-      fnvBacklightSetValue(brightnessValue);
-    }
-    break;
-
-    case BUTTON_SELECT:
-    {
-      fnvWriteBacklightValue(brightnessValue);
-      pfvChangeScreen = fnvDrawConfigMenuList;
-    }
-    break;
-  }
+void fnvNothingHere()
+{
+  //Nothing here
 }
