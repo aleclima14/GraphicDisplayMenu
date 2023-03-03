@@ -23,6 +23,11 @@ int iSelectedSubMenuItem = 0;
 // Adjusts the initial value to be between 0 and 4
 int brightnessSelect = brightnessValue / 55;
 
+int primeiroMenu = 0;
+int segundoMenu = 1;
+int terceiroMenu = 2;
+int quartoMenu = 3;
+
 /**
  * @brief Init u8g2 lib and backlight display
  * 
@@ -182,7 +187,7 @@ void fnvDrawConfigMenuList(void)
     u8g2.setFontMode(1);
     u8g2.setDrawColor(2);
     u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(6, 13, stSubMenuConfigTable[0].pucMenuName);
+    u8g2.drawStr(6, 13, stSubMenuConfigTable[primeiroMenu].pucMenuName);
     u8g2.drawStr(85, 13, "<   >");
 
     if(stBrightnessList[brightnessSelect].integerValue > 99)
@@ -199,17 +204,18 @@ void fnvDrawConfigMenuList(void)
     }
 
     u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(6, 28, stSubMenuConfigTable[1].pucMenuName);
+    u8g2.drawStr(6, 28, stSubMenuConfigTable[segundoMenu].pucMenuName);
     // u8g2.drawStr(85, 28, "<   >");
 
     u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(6, 43, stSubMenuConfigTable[2].pucMenuName);
+    u8g2.drawStr(6, 43, stSubMenuConfigTable[terceiroMenu].pucMenuName);
     u8g2.drawStr(85, 43, "<   >");
     EERead(BUZZER_ADDRESS) > 0 ? u8g2.drawStr(94, 43, "On"): u8g2.drawStr(91, 43, "Off");
 
 
     u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(6, 58, stSubMenuConfigTable[3].pucMenuName);
+    u8g2.drawStr(6, 58, stSubMenuConfigTable[quartoMenu].pucMenuName);
+
   }while (u8g2.nextPage());
 }
 
@@ -234,6 +240,13 @@ void fnvIncDecSelectedSubMenuItem(void)
       if (iSelectedSubMenuItem >= CONFIG_MENU_TABLE_SIZE-1) iSelectedSubMenuItem = CONFIG_MENU_TABLE_SIZE-1;
       else iSelectedSubMenuItem++;
       fnvWriteBacklightValue(brightnessValue);
+      // if(iSelectedSubMenuItem >= quartoMenu && iSelectedSubMenuItem < CONFIG_MENU_TABLE_SIZE)
+      // {
+      //   primeiroMenu = segundoMenu;
+      //   segundoMenu = terceiroMenu;
+      //   terceiroMenu = quartoMenu;
+      //   quartoMenu = iSelectedSubMenuItem;
+      // }
     }
     break;
 
@@ -259,6 +272,8 @@ void fnvIncDecSelectedSubMenuItem(void)
     default:
     break;
   }
+
+  
 }
 
 /**

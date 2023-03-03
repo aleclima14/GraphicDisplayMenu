@@ -108,6 +108,13 @@ static const StSubMenuConfigList stSubMenuConfigTable[] =
   {SUBMENU_CONFIG_BRIGHTNESS,             "Brightness",         &fnvIncDecBrightness        },
   {SUBMENU_CONFIG_BACKLIGHT,              "Backlight",          &fnvNothingHere             },
   {SUBMENU_CONFIG_SOUND,                  "Sound",              &fnvBuzzerToggleStatus      },
+  // {SUBMENU_CONFIG_TEST1,                  "Teste 1",            &fnvNothingHere             },
+  // {SUBMENU_CONFIG_TEST2,                  "Teste 2",            &fnvNothingHere             },
+  // {SUBMENU_CONFIG_TEST3,                  "Teste 3",            &fnvNothingHere             },
+  // {SUBMENU_CONFIG_TEST4,                  "Teste 4",            &fnvNothingHere             },
+  // {SUBMENU_CONFIG_TEST5,                  "Teste 5",            &fnvNothingHere             },
+  // {SUBMENU_CONFIG_TEST6,                  "Teste 6",            &fnvNothingHere             },
+
   {SUBMENU_CONFIG_RETURN,                 "Back",               &fnvDrawMainMenuList        },
 };
 #define CONFIG_MENU_TABLE_SIZE (int)(sizeof(stSubMenuConfigTable)/sizeof(StSubMenuConfigList))
