@@ -7,6 +7,7 @@
 #include "display.h"
 
 U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, SCK_PIN, MOSI_PIN, CS_PIN, RESET_PIN);
+// U8G2_ST7920_128X64_F_SW_SPI u8g2(U8G2_R0, SCK_PIN, MOSI_PIN, CS_PIN, RESET_PIN);
 
 /* PRIVATE FUNCTIONS */
 void fnvIncDecSelectedItemMenu(void);
@@ -29,11 +30,11 @@ int brightnessSelect = brightnessValue / 55;
  */
 void fnvDisplayInit(void)
 {
-  u8g2.begin();
-  pinMode(ENABLE_BACKLIGHT, OUTPUT);
-  analogWrite(ENABLE_BACKLIGHT, EERead(BACKLIGHT_ADDRESS));
-  pfvChangeScreen = fnvDrawMainMenuList;
-}
+   u8g2.begin();
+   pinMode(ENABLE_BACKLIGHT, OUTPUT);
+   analogWrite(ENABLE_BACKLIGHT, EERead(BACKLIGHT_ADDRESS));
+   pfvChangeScreen = fnvDrawMainMenuList;
+   }
 
 /**
  * @brief Set value of brightness
@@ -42,10 +43,10 @@ void fnvDisplayInit(void)
  */
 void fnvBacklightSetValue(int valuePWM)
 {
-  if (valuePWM > 250) valuePWM = 250;
-  if (valuePWM < 0) valuePWM = 0;
+   if (valuePWM > 250) valuePWM = 250;
+   if (valuePWM < 0) valuePWM = 0;
 
-  analogWrite(ENABLE_BACKLIGHT, valuePWM);
+   analogWrite(ENABLE_BACKLIGHT, valuePWM);
 }
 
 /**
@@ -55,13 +56,13 @@ void fnvBacklightSetValue(int valuePWM)
  */
 void fnvWriteBacklightValue(int brightnessWriteValue)
 {
-  if(brightnessValue != EERead(BACKLIGHT_ADDRESS))
-  {
-    EEWrite(BACKLIGHT_ADDRESS, brightnessWriteValue);
-    fnvBuzzerPlay(1000, 50);
-    fnvBuzzerPlay(4000, 50);
-    fnvBuzzerPlay(1000, 50);
-  }
+   if(brightnessValue != EERead(BACKLIGHT_ADDRESS))
+   {
+      EEWrite(BACKLIGHT_ADDRESS, brightnessWriteValue);
+      fnvBuzzerPlay(1000, 50);
+      fnvBuzzerPlay(4000, 50);
+      fnvBuzzerPlay(1000, 50);
+   }
 }
 
 /**
@@ -70,31 +71,31 @@ void fnvWriteBacklightValue(int brightnessWriteValue)
  */
 void fnvDrawMainMenuList(void)
 {
-  iPreviusItem = iSelectedItem - 1;
-  iNextItem = iSelectedItem + 1;
-  iSelectedSubMenuItem = 0;
+   iPreviusItem = iSelectedItem - 1;
+   iNextItem = iSelectedItem + 1;
+   iSelectedSubMenuItem = 0;
   
-  u8g2.firstPage();
-  do
-  {
-    u8g2.setDrawColor(1);
-    fnvIncDecSelectedItemMenu();
-    u8g2.drawXBMP(0, 0, 128, 64, backgroundMenuList);
+   u8g2.firstPage();
+   do
+   {
+      u8g2.setDrawColor(1);
+      fnvIncDecSelectedItemMenu();
+      u8g2.drawXBMP(0, 0, 128, 64, backgroundMenuList);
 
-    u8g2.drawXBMP(5, 2, 16, 16, stMainMenuTable[iPreviusItem].pucMenuIcons);
-    u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(24, 14, stMainMenuTable[iPreviusItem].pucMenuName);
+      u8g2.drawXBMP(5, 2, 16, 16, stMainMenuTable[iPreviusItem].pucMenuIcons);
+      u8g2.setFont(u8g2_font_t0_11_mr);
+      u8g2.drawStr(24, 14, stMainMenuTable[iPreviusItem].pucMenuName);
 
-    u8g2.drawXBMP(5, 24, 16, 16, stMainMenuTable[iSelectedItem].pucMenuIcons);
-    u8g2.setFont(u8g2_font_t0_11b_mr);
-    u8g2.drawStr(24, 36, stMainMenuTable[iSelectedItem].pucMenuName);
+      u8g2.drawXBMP(5, 24, 16, 16, stMainMenuTable[iSelectedItem].pucMenuIcons);
+      u8g2.setFont(u8g2_font_t0_11b_mr);
+      u8g2.drawStr(24, 36, stMainMenuTable[iSelectedItem].pucMenuName);
 
-    u8g2.drawXBMP(5, 45, 16, 16, stMainMenuTable[iNextItem].pucMenuIcons);
-    u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(24, 58, stMainMenuTable[iNextItem].pucMenuName);
+      u8g2.drawXBMP(5, 45, 16, 16, stMainMenuTable[iNextItem].pucMenuIcons);
+      u8g2.setFont(u8g2_font_t0_11_mr);
+      u8g2.drawStr(24, 58, stMainMenuTable[iNextItem].pucMenuName);
 
-    u8g2.drawBox(124, 64 / MAIN_MENU_TABLE_SIZE * iSelectedItem, 3, 64 / MAIN_MENU_TABLE_SIZE);
-  } while (u8g2.nextPage());
+      u8g2.drawBox(124, 64 / MAIN_MENU_TABLE_SIZE * iSelectedItem, 3, 64 / MAIN_MENU_TABLE_SIZE);
+   } while (u8g2.nextPage());
 }
 
 /**
@@ -103,65 +104,65 @@ void fnvDrawMainMenuList(void)
  */
 void fnvIncDecSelectedItemMenu(void)
 {
-  switch (fniButtonPressed())
-  {
-    case BUTTON_UP:
-    {
-      iSelectedItem--;
-      if (iSelectedItem < 0 )
+   switch (fniButtonPressed())
+   {
+      case BUTTON_UP:
       {
-        iSelectedItem = MAIN_MENU_TABLE_SIZE - 1;
+         iSelectedItem--;
+         if (iSelectedItem < 0 )
+         {
+         iSelectedItem = MAIN_MENU_TABLE_SIZE - 1;
+         }
       }
-    }
-    break;
+      break;
 
-    case BUTTON_DOWN:
-    {
-      iSelectedItem++;
-      if (iSelectedItem >= MAIN_MENU_TABLE_SIZE)
+      case BUTTON_DOWN:
       {
-        iSelectedItem = 0;
+         iSelectedItem++;
+         if (iSelectedItem >= MAIN_MENU_TABLE_SIZE)
+         {
+         iSelectedItem = 0;
+         }
       }
-    }
-    break;
+      break;
 
-    case BUTTON_SELECT:
-    {
-      switch (stMainMenuTable[iSelectedItem].enMenuItem)
+      case BUTTON_SELECT:
       {
-        case MENU_SOUND:
-        {
-          // To call a function:
-          stMainMenuTable[iSelectedItem].pvFunction();
-        }
-        break;
+         switch (stMainMenuTable[iSelectedItem].enMenuItem)
+         {
+         case MENU_SOUND:
+         {
+            // To call a function:
+            stMainMenuTable[iSelectedItem].pvFunction();
+         }
+         break;
 
-        case MENU_CONFIGURATION:
-        {
-          // To change screen:
-          pfvChangeScreen = stMainMenuTable[iSelectedItem].pvFunction;
-        }
-        break;
+         case MENU_CONFIGURATION:
+         {
+            // To change screen:
+            pfvChangeScreen = stMainMenuTable[iSelectedItem].pvFunction;
+         }
+         break;
 
-        default:
-        break;
+         default:
+         break;
+         }
       }
-    }
-    break;
+      break;
 
-    default:
-    break;
-  }
+      default:
+      break;
+   }
 
-  if (iPreviusItem < 0)
-  {
-    iPreviusItem = MAIN_MENU_TABLE_SIZE - 1;
-  }
+   if (iPreviusItem < 0)
+   {
+      iPreviusItem = MAIN_MENU_TABLE_SIZE - 1;
+   }
 
-  if (iNextItem >= MAIN_MENU_TABLE_SIZE)
-  {
-    iNextItem = 0;
-  }
+   if (iNextItem >= MAIN_MENU_TABLE_SIZE)
+   {
+      iNextItem = 0;
+   }
 }
 
 /**
@@ -170,47 +171,47 @@ void fnvIncDecSelectedItemMenu(void)
  */
 void fnvDrawConfigMenuList(void)
 {
-  u8g2.firstPage();
-  do
-  {
-    fnvIncDecSelectedSubMenuItem();
-    u8g2.setDrawColor(1);
-    u8g2.drawLine(125, 1, 125, 63);
-    u8g2.drawBox(124, 64 / CONFIG_MENU_TABLE_SIZE * iSelectedSubMenuItem, 3, 64 / CONFIG_MENU_TABLE_SIZE);
-    u8g2.drawXBMP(2, 1+iSelectedSubMenuItem*15, 116, 16, submenuSelectBar);
+   u8g2.firstPage();
+   do
+   {
+      fnvIncDecSelectedSubMenuItem();
+      u8g2.setDrawColor(1);
+      u8g2.drawLine(125, 1, 125, 63);
+      u8g2.drawBox(124, 64 / CONFIG_MENU_TABLE_SIZE * iSelectedSubMenuItem, 3, 64 / CONFIG_MENU_TABLE_SIZE);
+      u8g2.drawXBMP(2, 1+iSelectedSubMenuItem*15, 116, 16, submenuSelectBar);
 
-    u8g2.setFontMode(1);
-    u8g2.setDrawColor(2);
-    u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(6, 13, stSubMenuConfigTable[0].pucMenuName);
-    u8g2.drawStr(85, 13, "<   >");
+      u8g2.setFontMode(1);
+      u8g2.setDrawColor(2);
+      u8g2.setFont(u8g2_font_t0_11_mr);
+      u8g2.drawStr(6, 13, stSubMenuConfigTable[0].pucMenuName);
+      u8g2.drawStr(85, 13, "<   >");
 
-    if(stBrightnessList[brightnessSelect].integerValue > 99)
-    {
-      u8g2.drawStr(91, 13, stBrightnessList[brightnessSelect].levelName);
-    }
-    else if(stBrightnessList[brightnessSelect].integerValue < 10)
-    {
-      u8g2.drawStr(97, 13, stBrightnessList[brightnessSelect].levelName);
-    }
-    else
-    {
-      u8g2.drawStr(94, 13, stBrightnessList[brightnessSelect].levelName);
-    }
+      if(stBrightnessList[brightnessSelect].integerValue > 99)
+      {
+         u8g2.drawStr(91, 13, stBrightnessList[brightnessSelect].levelName);
+      }
+      else if(stBrightnessList[brightnessSelect].integerValue < 10)
+      {
+         u8g2.drawStr(97, 13, stBrightnessList[brightnessSelect].levelName);
+      }
+      else
+      {
+         u8g2.drawStr(94, 13, stBrightnessList[brightnessSelect].levelName);
+      }
 
-    u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(6, 28, stSubMenuConfigTable[1].pucMenuName);
-    // u8g2.drawStr(85, 28, "<   >");
+      u8g2.setFont(u8g2_font_t0_11_mr);
+      u8g2.drawStr(6, 28, stSubMenuConfigTable[1].pucMenuName);
+      // u8g2.drawStr(85, 28, "<   >");
 
-    u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(6, 43, stSubMenuConfigTable[2].pucMenuName);
-    u8g2.drawStr(85, 43, "<   >");
-    EERead(BUZZER_ADDRESS) > 0 ? u8g2.drawStr(94, 43, "On"): u8g2.drawStr(91, 43, "Off");
+      u8g2.setFont(u8g2_font_t0_11_mr);
+      u8g2.drawStr(6, 43, stSubMenuConfigTable[2].pucMenuName);
+      u8g2.drawStr(85, 43, "<   >");
+      EERead(BUZZER_ADDRESS) > 0 ? u8g2.drawStr(94, 43, "On"): u8g2.drawStr(91, 43, "Off");
 
 
-    u8g2.setFont(u8g2_font_t0_11_mr);
-    u8g2.drawStr(6, 58, stSubMenuConfigTable[3].pucMenuName);
-  }while (u8g2.nextPage());
+      u8g2.setFont(u8g2_font_t0_11_mr);
+      u8g2.drawStr(6, 58, stSubMenuConfigTable[3].pucMenuName);
+   }while (u8g2.nextPage());
 }
 
 /**
@@ -219,46 +220,46 @@ void fnvDrawConfigMenuList(void)
  */
 void fnvIncDecSelectedSubMenuItem(void)
 {
-  switch (fniButtonPressed())
-  {
-    case BUTTON_UP:
-    {
-      if (iSelectedSubMenuItem == 0) iSelectedSubMenuItem = 0;
-      else iSelectedSubMenuItem--;
-      fnvWriteBacklightValue(brightnessValue);
-    }
-    break;
-
-    case BUTTON_DOWN:
-    {
-      if (iSelectedSubMenuItem >= CONFIG_MENU_TABLE_SIZE-1) iSelectedSubMenuItem = CONFIG_MENU_TABLE_SIZE-1;
-      else iSelectedSubMenuItem++;
-      fnvWriteBacklightValue(brightnessValue);
-    }
-    break;
-
-    case BUTTON_SELECT:
-    {
-      switch (stSubMenuConfigTable[iSelectedSubMenuItem].enMenuItem)
+   switch (fniButtonPressed())
+   {
+      case BUTTON_UP:
       {
-        case SUBMENU_CONFIG_RETURN:
-        {
-          pfvChangeScreen = stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction;
-        }
-        break;
-
-        default:
-        {
-          stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction();
-        }
-        break;
+         if (iSelectedSubMenuItem == 0) iSelectedSubMenuItem = 0;
+         else iSelectedSubMenuItem--;
+         fnvWriteBacklightValue(brightnessValue);
       }
-    }
-    break;
+      break;
 
-    default:
-    break;
-  }
+      case BUTTON_DOWN:
+      {
+         if (iSelectedSubMenuItem >= CONFIG_MENU_TABLE_SIZE-1) iSelectedSubMenuItem = CONFIG_MENU_TABLE_SIZE-1;
+         else iSelectedSubMenuItem++;
+         fnvWriteBacklightValue(brightnessValue);
+      }
+      break;
+
+      case BUTTON_SELECT:
+      {
+         switch (stSubMenuConfigTable[iSelectedSubMenuItem].enMenuItem)
+         {
+         case SUBMENU_CONFIG_RETURN:
+         {
+            pfvChangeScreen = stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction;
+         }
+         break;
+
+         default:
+         {
+            stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction();
+         }
+         break;
+         }
+      }
+      break;
+
+      default:
+      break;
+   }
 }
 
 /**
@@ -267,10 +268,10 @@ void fnvIncDecSelectedSubMenuItem(void)
  */
 void fnvIncDecBrightness(void)
 {
-  brightnessSelect--;
-  if(brightnessSelect < BRIGHTNESS_1) brightnessSelect = BRIGHTNESS_5;
-  brightnessValue = stBrightnessList[brightnessSelect].integerValue * 250/100;
-  fnvBacklightSetValue(brightnessValue);
+   brightnessSelect--;
+   if(brightnessSelect < BRIGHTNESS_1) brightnessSelect = BRIGHTNESS_5;
+   brightnessValue = stBrightnessList[brightnessSelect].integerValue * 250/100;
+   fnvBacklightSetValue(brightnessValue);
 }
 
 void fnvNothingHere()

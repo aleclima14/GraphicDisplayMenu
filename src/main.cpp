@@ -12,12 +12,12 @@ extern void (*pfvChangeScreen)();
 
 void setup()
 {
-  fnvDisplayInit();
-  fnvBuzzerInit();
-  fnvButtonsInit();
+   fnvDisplayInit();
+   fnvBuzzerInit();
+   fnvButtonsInit();
 }
 
 void loop()
 {
-  (*pfvChangeScreen)();
+   (*pfvChangeScreen)();
 }

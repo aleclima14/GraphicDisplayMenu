@@ -61,15 +61,15 @@ void fnvBuzzerPlay(int frequency, int duration)
  */
 void fnvBuzzerEnableDisable (int stateBz)
 {
-  EEWrite(BUZZER_ADDRESS, stateBz);
+   EEWrite(BUZZER_ADDRESS, stateBz);
 }
 
 void fnvBuzzerToggleStatus()
 {
-  static int buzzerState;
-  buzzerState = EERead(BUZZER_ADDRESS);
-  buzzerState = !buzzerState;
-  fnvBuzzerEnableDisable(buzzerState);
+   static int buzzerState;
+   buzzerState = EERead(BUZZER_ADDRESS);
+   buzzerState = !buzzerState;
+   fnvBuzzerEnableDisable(buzzerState);
 }
 
 /**
@@ -78,9 +78,9 @@ void fnvBuzzerToggleStatus()
  */
 void fnvButtonsInit()
 {
-  pinMode(BUTTON1_PIN, INPUT_PULLUP);
-  pinMode(BUTTON2_PIN, INPUT_PULLUP);
-  pinMode(BUTTON3_PIN, INPUT_PULLUP);
+   pinMode(BUTTON1_PIN, INPUT_PULLUP);
+   pinMode(BUTTON2_PIN, INPUT_PULLUP);
+   pinMode(BUTTON3_PIN, INPUT_PULLUP);
 }
 
 /**
@@ -90,41 +90,41 @@ void fnvButtonsInit()
  */
 int fniButtonPressed()
 {
-  int returnButton = 0;
+   int returnButton = 0;
 
-  buttonUP = digitalRead(BUTTON1_PIN);
-  if(!buttonUP)
-  {
-    if((millis() - ulDebounceUP) > DEBOUCE_BUTTON)
-    {
-      ulDebounceUP = millis();
-      returnButton = BUTTON_UP;
-      fnvBuzzerPlay(2000, 50);
-    }
-  }
+   buttonUP = digitalRead(BUTTON1_PIN);
+   if(!buttonUP)
+   {
+      if((millis() - ulDebounceUP) > DEBOUCE_BUTTON)
+      {
+         ulDebounceUP = millis();
+         returnButton = BUTTON_UP;
+         fnvBuzzerPlay(2000, 50);
+      }
+   }
 
-  buttonDW = digitalRead(BUTTON2_PIN);
-  if(!buttonDW)
-  {
-    if((millis() - ulDebounceDW) > DEBOUCE_BUTTON)
-    {
-      ulDebounceDW = millis();
-      returnButton = BUTTON_DOWN;
-      fnvBuzzerPlay(2000, 50);
-    }
-  }
+   buttonDW = digitalRead(BUTTON2_PIN);
+   if(!buttonDW)
+   {
+      if((millis() - ulDebounceDW) > DEBOUCE_BUTTON)
+      {
+         ulDebounceDW = millis();
+         returnButton = BUTTON_DOWN;
+         fnvBuzzerPlay(2000, 50);
+      }
+   }
 
-  flagButtonSL = buttonSL;
-  buttonSL = digitalRead(BUTTON3_PIN);
-  if((!buttonSL) && (flagButtonSL))
-  {
-    if((millis() - ulDebounceSL) > DEBOUNCE_SELECT_BUTTON)
-    {
-      ulDebounceSL = millis();
-      returnButton = BUTTON_SELECT;
-      fnvBuzzerPlay(2000, 50);
-    }
-  }
+   flagButtonSL = buttonSL;
+   buttonSL = digitalRead(BUTTON3_PIN);
+   if((!buttonSL) && (flagButtonSL))
+   {
+      if((millis() - ulDebounceSL) > DEBOUNCE_SELECT_BUTTON)
+      {
+         ulDebounceSL = millis();
+         returnButton = BUTTON_SELECT;
+         fnvBuzzerPlay(2000, 50);
+      }
+   }
 
-  return returnButton;
+   return returnButton;
 }
