@@ -7,12 +7,14 @@
 #include "display.h"
 
 U8G2_ST7920_128X64_1_SW_SPI u8g2(U8G2_R0, SCK_PIN, MOSI_PIN, CS_PIN, RESET_PIN);
-// U8G2_ST7920_128X64_F_SW_SPI u8g2(U8G2_R0, SCK_PIN, MOSI_PIN, CS_PIN, RESET_PIN);
 
 /* PRIVATE FUNCTIONS */
 void fnvIncDecSelectedItemMenu(void);
 void fnvIncDecSelectedSubMenuItem(void);
 void fnvWriteBacklightValue(int value);
+void fnvSetBrightness(void);
+void fnvDrawString(const uint8_t *font, uint8_t x, uint8_t y, const char *string);
+
 void (*pfvChangeScreen)();
 
 /* GLOBAL VARIABLES */
@@ -34,7 +36,7 @@ void fnvDisplayInit(void)
    pinMode(ENABLE_BACKLIGHT, OUTPUT);
    analogWrite(ENABLE_BACKLIGHT, EERead(BACKLIGHT_ADDRESS));
    pfvChangeScreen = fnvDrawMainMenuList;
-   }
+}
 
 /**
  * @brief Set value of brightness
@@ -50,19 +52,17 @@ void fnvBacklightSetValue(int valuePWM)
 }
 
 /**
- * @brief Write bightness into BACKLIGHT_ADDRESS
+ * @brief Set font and draw string
  * 
- * @param brightnessWriteValue 
+ * @param font family
+ * @param x position
+ * @param y  position
+ * @param string 
  */
-void fnvWriteBacklightValue(int brightnessWriteValue)
+void fnvDrawString(const uint8_t *font, uint8_t x, uint8_t y, const char *string)
 {
-   if(brightnessValue != EERead(BACKLIGHT_ADDRESS))
-   {
-      EEWrite(BACKLIGHT_ADDRESS, brightnessWriteValue);
-      fnvBuzzerPlay(1000, 50);
-      fnvBuzzerPlay(4000, 50);
-      fnvBuzzerPlay(1000, 50);
-   }
+   u8g2.setFont(font);
+   u8g2.drawStr(x, y, string);
 }
 
 /**
@@ -83,16 +83,13 @@ void fnvDrawMainMenuList(void)
       u8g2.drawXBMP(0, 0, 128, 64, backgroundMenuList);
 
       u8g2.drawXBMP(5, 2, 16, 16, stMainMenuTable[iPreviusItem].pucMenuIcons);
-      u8g2.setFont(u8g2_font_t0_11_mr);
-      u8g2.drawStr(24, 14, stMainMenuTable[iPreviusItem].pucMenuName);
+      fnvDrawString(u8g2_font_t0_11_mr, 24, 14,stMainMenuTable[iPreviusItem].pucMenuName);
 
       u8g2.drawXBMP(5, 24, 16, 16, stMainMenuTable[iSelectedItem].pucMenuIcons);
-      u8g2.setFont(u8g2_font_t0_11b_mr);
-      u8g2.drawStr(24, 36, stMainMenuTable[iSelectedItem].pucMenuName);
+      fnvDrawString(u8g2_font_t0_11b_mr, 24, 36,stMainMenuTable[iSelectedItem].pucMenuName);
 
       u8g2.drawXBMP(5, 45, 16, 16, stMainMenuTable[iNextItem].pucMenuIcons);
-      u8g2.setFont(u8g2_font_t0_11_mr);
-      u8g2.drawStr(24, 58, stMainMenuTable[iNextItem].pucMenuName);
+      fnvDrawString(u8g2_font_t0_11_mr, 24, 58,stMainMenuTable[iNextItem].pucMenuName);
 
       u8g2.drawBox(124, 64 / MAIN_MENU_TABLE_SIZE * iSelectedItem, 3, 64 / MAIN_MENU_TABLE_SIZE);
    } while (u8g2.nextPage());
@@ -109,20 +106,14 @@ void fnvIncDecSelectedItemMenu(void)
       case BUTTON_UP:
       {
          iSelectedItem--;
-         if (iSelectedItem < 0 )
-         {
-            iSelectedItem = MAIN_MENU_TABLE_SIZE - 1;
-         }
+         if (iSelectedItem < 0 )  iSelectedItem = MAIN_MENU_TABLE_SIZE - 1;
       }
       break;
 
       case BUTTON_DOWN:
       {
          iSelectedItem++;
-         if (iSelectedItem >= MAIN_MENU_TABLE_SIZE)
-         {
-            iSelectedItem = 0;
-         }
+         if (iSelectedItem >= MAIN_MENU_TABLE_SIZE) iSelectedItem = 0;
       }
       break;
 
@@ -154,15 +145,8 @@ void fnvIncDecSelectedItemMenu(void)
       break;
    }
 
-   if (iPreviusItem < 0)
-   {
-      iPreviusItem = MAIN_MENU_TABLE_SIZE - 1;
-   }
-
-   if (iNextItem >= MAIN_MENU_TABLE_SIZE)
-   {
-      iNextItem = 0;
-   }
+   if (iPreviusItem < 0) iPreviusItem = MAIN_MENU_TABLE_SIZE - 1;
+   if (iNextItem >= MAIN_MENU_TABLE_SIZE) iNextItem = 0;
 }
 
 /**
@@ -179,38 +163,25 @@ void fnvDrawConfigMenuList(void)
       u8g2.drawLine(125, 1, 125, 63);
       u8g2.drawBox(124, 64 / CONFIG_MENU_TABLE_SIZE * iSelectedSubMenuItem, 3, 64 / CONFIG_MENU_TABLE_SIZE);
       u8g2.drawXBMP(2, 1+iSelectedSubMenuItem*15, 116, 16, submenuSelectBar);
-
       u8g2.setFontMode(1);
       u8g2.setDrawColor(2);
-      u8g2.setFont(u8g2_font_t0_11_mr);
-      u8g2.drawStr(6, 13, stSubMenuConfigTable[0].pucMenuName);
+
+      /* Draw line 0 */
+      fnvDrawString(u8g2_font_t0_11_mr, 6, 13, stSubMenuConfigTable[0].pucMenuName);
       u8g2.drawStr(85, 13, "<   >");
+      fnvSetBrightness();
 
-      if(stBrightnessList[brightnessSelect].integerValue > 99)
-      {
-         u8g2.drawStr(91, 13, stBrightnessList[brightnessSelect].levelName);
-      }
-      else if(stBrightnessList[brightnessSelect].integerValue < 10)
-      {
-         u8g2.drawStr(97, 13, stBrightnessList[brightnessSelect].levelName);
-      }
-      else
-      {
-         u8g2.drawStr(94, 13, stBrightnessList[brightnessSelect].levelName);
-      }
-
-      u8g2.setFont(u8g2_font_t0_11_mr);
-      u8g2.drawStr(6, 28, stSubMenuConfigTable[1].pucMenuName);
-      // u8g2.drawStr(85, 28, "<   >");
-
-      u8g2.setFont(u8g2_font_t0_11_mr);
-      u8g2.drawStr(6, 43, stSubMenuConfigTable[2].pucMenuName);
+      /* Draw line 1 */
+      fnvDrawString(u8g2_font_t0_11_mr, 6, 28, stSubMenuConfigTable[1].pucMenuName);
+      
+      /* Draw line 2 */
+      fnvDrawString(u8g2_font_t0_11_mr, 6, 43, stSubMenuConfigTable[2].pucMenuName);
       u8g2.drawStr(85, 43, "<   >");
       EERead(BUZZER_ADDRESS) > 0 ? u8g2.drawStr(94, 43, "On"): u8g2.drawStr(91, 43, "Off");
+      
+      /* Draw line 3 */
+      fnvDrawString(u8g2_font_t0_11_mr, 6, 58, stSubMenuConfigTable[3].pucMenuName);
 
-
-      u8g2.setFont(u8g2_font_t0_11_mr);
-      u8g2.drawStr(6, 58, stSubMenuConfigTable[3].pucMenuName);
    }while (u8g2.nextPage());
 }
 
@@ -242,17 +213,17 @@ void fnvIncDecSelectedSubMenuItem(void)
       {
          switch (stSubMenuConfigTable[iSelectedSubMenuItem].enMenuItem)
          {
-         case SUBMENU_CONFIG_RETURN:
-         {
-            pfvChangeScreen = stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction;
-         }
-         break;
+            case SUBMENU_CONFIG_RETURN:
+            {
+               pfvChangeScreen = stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction;
+            }
+            break;
 
-         default:
-         {
-            stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction();
-         }
-         break;
+            default:
+            {
+               stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction();
+            }
+            break;
          }
       }
       break;
@@ -272,6 +243,42 @@ void fnvIncDecBrightness(void)
    if(brightnessSelect < BRIGHTNESS_1) brightnessSelect = BRIGHTNESS_5;
    brightnessValue = stBrightnessList[brightnessSelect].integerValue * 250/100;
    fnvBacklightSetValue(brightnessValue);
+}
+
+/**
+ * @brief Set the value according to the brightness table 
+ * 
+ */
+void fnvSetBrightness(void)
+{
+   if(stBrightnessList[brightnessSelect].integerValue > 99)
+   {
+      u8g2.drawStr(91, 13, stBrightnessList[brightnessSelect].levelName);
+   }
+   else if(stBrightnessList[brightnessSelect].integerValue < 10)
+   {
+      u8g2.drawStr(97, 13, stBrightnessList[brightnessSelect].levelName);
+   }
+   else
+   {
+      u8g2.drawStr(94, 13, stBrightnessList[brightnessSelect].levelName);
+   }
+} 
+
+/**
+ * @brief Write bightness into "BACKLIGHT_ADDRESS" EEPROM Address
+ * 
+ * @param brightnessWriteValue 
+ */
+void fnvWriteBacklightValue(int brightnessWriteValue)
+{
+   if(brightnessValue != EERead(BACKLIGHT_ADDRESS))
+   {
+      EEWrite(BACKLIGHT_ADDRESS, brightnessWriteValue);
+      fnvBuzzerPlay(1000, 50);
+      fnvBuzzerPlay(4000, 50);
+      fnvBuzzerPlay(1000, 50);
+   }
 }
 
 void fnvNothingHere()
