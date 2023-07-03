@@ -111,7 +111,7 @@ void fnvIncDecSelectedItemMenu(void)
          iSelectedItem--;
          if (iSelectedItem < 0 )
          {
-         iSelectedItem = MAIN_MENU_TABLE_SIZE - 1;
+            iSelectedItem = MAIN_MENU_TABLE_SIZE - 1;
          }
       }
       break;
@@ -121,7 +121,7 @@ void fnvIncDecSelectedItemMenu(void)
          iSelectedItem++;
          if (iSelectedItem >= MAIN_MENU_TABLE_SIZE)
          {
-         iSelectedItem = 0;
+            iSelectedItem = 0;
          }
       }
       break;
