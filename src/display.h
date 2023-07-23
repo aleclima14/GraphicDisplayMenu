@@ -105,18 +105,18 @@ static const StMainMenuList stMainMenuTable[] =
 static const StSubMenuConfigList stSubMenuConfigTable[] = 
 {
   /*MENU INDEX                            MENU NAME             FUNCTION                    */
-//   {SUBMENU_CONFIG_BRIGHTNESS,             "Brightness",         &fnvIncDecBrightness        },
-//   {SUBMENU_CONFIG_BACKLIGHT,              "Backlight",          &fnvNothingHere             },
-//   {SUBMENU_CONFIG_SOUND,                  "Sound",              &fnvBuzzerToggleStatus      },
-//   {SUBMENU_CONFIG_RETURN,                 "Back",               &fnvDrawMainMenuList        },
-   {SUBMENU_CONFIG_TEST1,                    "Test 1",             &fnvNothingHere           },
-   {SUBMENU_CONFIG_TEST2,                    "Test 2",             &fnvNothingHere           },
-   {SUBMENU_CONFIG_TEST3,                    "Test 3",             &fnvNothingHere           },
-   {SUBMENU_CONFIG_TEST4,                    "Test 4",             &fnvNothingHere           },
-   {SUBMENU_CONFIG_TEST5,                    "Test 5",             &fnvNothingHere           },
-   {SUBMENU_CONFIG_TEST6,                    "Test 6",             &fnvNothingHere           },
-   {SUBMENU_CONFIG_TEST7,                    "Test 7",             &fnvNothingHere           },
-   {SUBMENU_CONFIG_TEST8,                    "Test 8",             &fnvNothingHere           },
+   {SUBMENU_CONFIG_BRIGHTNESS,            "Brightness",         &fnvIncDecBrightness        },
+   {SUBMENU_CONFIG_BACKLIGHT,             "Backlight",          &fnvNothingHere             },
+   {SUBMENU_CONFIG_SOUND,                 "Sound",              &fnvBuzzerToggleStatus      },
+   {SUBMENU_CONFIG_TEST1,                 "Test 1",             &fnvNothingHere             },
+   {SUBMENU_CONFIG_TEST2,                 "Test 2",             &fnvNothingHere             },
+   {SUBMENU_CONFIG_TEST3,                 "Test 3",             &fnvNothingHere             },
+   {SUBMENU_CONFIG_TEST4,                 "Test 4",             &fnvNothingHere             },
+   {SUBMENU_CONFIG_TEST5,                 "Test 5",             &fnvNothingHere             },
+   {SUBMENU_CONFIG_TEST6,                 "Test 6",             &fnvNothingHere             },
+   {SUBMENU_CONFIG_TEST7,                 "Test 7",             &fnvNothingHere             },
+   {SUBMENU_CONFIG_TEST8,                 "Test 8",             &fnvNothingHere             },
+   {SUBMENU_CONFIG_RETURN,                "Back",               &fnvDrawMainMenuList        },
 };
 #define CONFIG_MENU_TABLE_SIZE (int)(sizeof(stSubMenuConfigTable)/sizeof(StSubMenuConfigList))
 

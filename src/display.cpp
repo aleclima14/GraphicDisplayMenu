@@ -30,7 +30,7 @@ int subMenu0 = 0;
 int subMenu1 = 1;
 int subMenu2 = 2;
 int subMenu3 = 3;
-int selectBarPosition;
+int selectBarPosition = 1;
 
 /**
  * @brief Init u8g2 lib and backlight display
@@ -205,17 +205,15 @@ void fnvIncDecSelectedSubMenuItem(void)
          if (iSelectedSubMenuItem == 0) iSelectedSubMenuItem = 0;
          else iSelectedSubMenuItem--;
          fnvWriteBacklightValue(brightnessValue);
-         if(iSelectedSubMenuItem < 4) selectBarPosition = 1+iSelectedSubMenuItem*15;
-         if((iSelectedSubMenuItem < subMenu3) && (subMenu0 > 0))
+         selectBarPosition = selectBarPosition - 15;
+         if(selectBarPosition < 0) selectBarPosition = 1;
+         if((iSelectedSubMenuItem+3 < subMenu3) && (subMenu0 > 0) && (selectBarPosition == 1))
          {
             subMenu0--;
             subMenu1--;
             subMenu2--;
             subMenu3--;
-         }
-         Serial.print(iSelectedSubMenuItem);
-         Serial.print(" ");
-         Serial.println(selectBarPosition);
+         }         
       }
       break;
 
@@ -224,7 +222,8 @@ void fnvIncDecSelectedSubMenuItem(void)
          if (iSelectedSubMenuItem >= CONFIG_MENU_TABLE_SIZE-1) iSelectedSubMenuItem = CONFIG_MENU_TABLE_SIZE-1;
          else iSelectedSubMenuItem++;
          fnvWriteBacklightValue(brightnessValue);
-         if(iSelectedSubMenuItem < 4) selectBarPosition = 1+iSelectedSubMenuItem*15;
+         selectBarPosition = selectBarPosition + 15;
+         if(selectBarPosition > 46) selectBarPosition = 46;
          if(iSelectedSubMenuItem > subMenu3)
          {
             subMenu0++;
@@ -232,9 +231,6 @@ void fnvIncDecSelectedSubMenuItem(void)
             subMenu2++;
             subMenu3++;
          }
-         Serial.print(iSelectedSubMenuItem);
-         Serial.print(" ");
-         Serial.println(selectBarPosition);
       }
       break;
 
@@ -244,6 +240,11 @@ void fnvIncDecSelectedSubMenuItem(void)
          {
             case SUBMENU_CONFIG_RETURN:
             {
+               subMenu0 = 0;
+               subMenu1 = 1;
+               subMenu2 = 2;
+               subMenu3 = 3;
+               selectBarPosition = 1;
                pfvChangeScreen = stSubMenuConfigTable[iSelectedSubMenuItem].pvFunction;
             }
             break;
