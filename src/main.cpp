@@ -15,6 +15,7 @@ void setup()
    fnvDisplayInit();
    fnvBuzzerInit();
    fnvButtonsInit();
+   Serial.begin(9600);
 }
 
 void loop()

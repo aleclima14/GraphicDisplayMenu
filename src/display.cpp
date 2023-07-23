@@ -26,6 +26,12 @@ int iSelectedSubMenuItem = 0;
 // Adjusts the initial value to be between 0 and 4
 int brightnessSelect = brightnessValue / 55;
 
+int subMenu0 = 0;
+int subMenu1 = 1;
+int subMenu2 = 2;
+int subMenu3 = 3;
+int selectBarPosition;
+
 /**
  * @brief Init u8g2 lib and backlight display
  * 
@@ -162,25 +168,26 @@ void fnvDrawConfigMenuList(void)
       u8g2.setDrawColor(1);
       u8g2.drawLine(125, 1, 125, 63);
       u8g2.drawBox(124, 64 / CONFIG_MENU_TABLE_SIZE * iSelectedSubMenuItem, 3, 64 / CONFIG_MENU_TABLE_SIZE);
-      u8g2.drawXBMP(2, 1+iSelectedSubMenuItem*15, 116, 16, submenuSelectBar);
+      u8g2.drawXBMP(2, selectBarPosition, 116, 16, submenuSelectBar);
       u8g2.setFontMode(1);
       u8g2.setDrawColor(2);
 
       /* Draw line 0 */
-      fnvDrawString(u8g2_font_t0_11_mr, 6, 13, stSubMenuConfigTable[0].pucMenuName);
-      u8g2.drawStr(85, 13, "<   >");
-      fnvSetBrightness();
+      fnvDrawString(u8g2_font_t0_11_mr, 6, 13, stSubMenuConfigTable[subMenu0].pucMenuName);
+      // u8g2.drawStr(85, 13, "<   >");
+      // fnvSetBrightness();
 
       /* Draw line 1 */
-      fnvDrawString(u8g2_font_t0_11_mr, 6, 28, stSubMenuConfigTable[1].pucMenuName);
+      fnvDrawString(u8g2_font_t0_11_mr, 6, 28, stSubMenuConfigTable[subMenu1].pucMenuName);
       
       /* Draw line 2 */
-      fnvDrawString(u8g2_font_t0_11_mr, 6, 43, stSubMenuConfigTable[2].pucMenuName);
-      u8g2.drawStr(85, 43, "<   >");
-      EERead(BUZZER_ADDRESS) > 0 ? u8g2.drawStr(94, 43, "On"): u8g2.drawStr(91, 43, "Off");
+      fnvDrawString(u8g2_font_t0_11_mr, 6, 43, stSubMenuConfigTable[subMenu2].pucMenuName);
+      // u8g2.drawStr(85, 43, "<   >");
+      // EERead(BUZZER_ADDRESS) > 0 ? u8g2.drawStr(94, 43, "On"): u8g2.drawStr(91, 43, "Off");
       
       /* Draw line 3 */
-      fnvDrawString(u8g2_font_t0_11_mr, 6, 58, stSubMenuConfigTable[3].pucMenuName);
+      fnvDrawString(u8g2_font_t0_11_mr, 6, 58, stSubMenuConfigTable[subMenu3].pucMenuName);
+      
 
    }while (u8g2.nextPage());
 }
@@ -198,6 +205,17 @@ void fnvIncDecSelectedSubMenuItem(void)
          if (iSelectedSubMenuItem == 0) iSelectedSubMenuItem = 0;
          else iSelectedSubMenuItem--;
          fnvWriteBacklightValue(brightnessValue);
+         if(iSelectedSubMenuItem < 4) selectBarPosition = 1+iSelectedSubMenuItem*15;
+         if((iSelectedSubMenuItem < subMenu3) && (subMenu0 > 0))
+         {
+            subMenu0--;
+            subMenu1--;
+            subMenu2--;
+            subMenu3--;
+         }
+         Serial.print(iSelectedSubMenuItem);
+         Serial.print(" ");
+         Serial.println(selectBarPosition);
       }
       break;
 
@@ -206,6 +224,17 @@ void fnvIncDecSelectedSubMenuItem(void)
          if (iSelectedSubMenuItem >= CONFIG_MENU_TABLE_SIZE-1) iSelectedSubMenuItem = CONFIG_MENU_TABLE_SIZE-1;
          else iSelectedSubMenuItem++;
          fnvWriteBacklightValue(brightnessValue);
+         if(iSelectedSubMenuItem < 4) selectBarPosition = 1+iSelectedSubMenuItem*15;
+         if(iSelectedSubMenuItem > subMenu3)
+         {
+            subMenu0++;
+            subMenu1++;
+            subMenu2++;
+            subMenu3++;
+         }
+         Serial.print(iSelectedSubMenuItem);
+         Serial.print(" ");
+         Serial.println(selectBarPosition);
       }
       break;
 
