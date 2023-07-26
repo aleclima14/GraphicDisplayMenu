@@ -11,7 +11,8 @@
 #include "Arduino.h"
 
 /* DEFINES */
-//Empty
+#define DISPLAY_ST7920_128X64
+// #define DISPLAY_SSD1306_128X64
 
 /* Peripherals */
 #define BUZZER_PIN         6
