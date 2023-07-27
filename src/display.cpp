@@ -133,22 +133,22 @@ void fnvIncDecSelectedItemMenu(void)
       {
          switch (stMainMenuTable[iSelectedItem].enMenuItem)
          {
-         case MENU_SOUND:
-         {
-            // To call a function:
-            stMainMenuTable[iSelectedItem].pvFunction();
-         }
-         break;
+            case MENU_SOUND:
+            {
+               // To call a function:
+               stMainMenuTable[iSelectedItem].pvFunction();
+            }
+            break;
 
-         case MENU_CONFIGURATION:
-         {
-            // To change screen:
-            pfvChangeScreen = stMainMenuTable[iSelectedItem].pvFunction;
-         }
-         break;
+            case MENU_CONFIGURATION:
+            {
+               // To change screen:
+               pfvChangeScreen = stMainMenuTable[iSelectedItem].pvFunction;
+            }
+            break;
 
-         default:
-         break;
+            default:
+            break;
          }
       }
       break;
