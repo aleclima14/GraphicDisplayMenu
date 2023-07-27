@@ -15,5 +15,8 @@ Para criar os icones, basta criar um projeto no Photoshop, Photopea ou qualquer 
 - Texto/icone preto
 - Salvar em PNG e converter no Convertio
 
-
+## Menu com icones
 ![display-working](https://user-images.githubusercontent.com/93883349/218288578-98ce320d-00a3-48f3-b0ba-8749582833c7.gif)
+
+## Menu simples
+![submenu gif](https://github.com/aleclima14/GraphicDisplayMenu/assets/93883349/25147054-0541-4b25-b2b3-d0897738afd7)
