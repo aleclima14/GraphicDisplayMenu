@@ -17,12 +17,13 @@
 #define DEBOUNCE_SELECT_BUTTON  100
 
 /* ENUMS */
-enum Keypressed
+typedef enum 
 {
-   BUTTON_UP      = 1,
-   BUTTON_DOWN    = 2,
-   BUTTON_SELECT  = 3,
-};
+   BUTTON_NULL = 0,
+   BUTTON_UP,
+   BUTTON_DOWN,
+   BUTTON_SELECT,
+}Keypressed;
 
 /* GLOBAL FUNCTIONS */
 void fnvBuzzerInit();
@@ -30,6 +31,6 @@ void fnvBuzzerPlay(int frequency, int duration);
 void fnvBuzzerEnableDisable (int stateBz);
 void fnvBuzzerToggleStatus();
 void fnvButtonsInit();
-int fniButtonPressed();
+Keypressed ButtonPressed();
 
 #endif /* __peripherals_h__ */

@@ -113,7 +113,7 @@ void fnvDrawMainMenuList(void)
  */
 void fnvIncDecSelectedItemMenu(void)
 {
-   switch (fniButtonPressed())
+   switch (ButtonPressed())
    {
       case BUTTON_UP:
       {
@@ -204,7 +204,7 @@ void fnvDrawConfigMenuList(void)
  */
 void fnvIncDecSelectedSubMenuItem(void)
 {
-   switch (fniButtonPressed())
+   switch (ButtonPressed())
    {
       case BUTTON_UP:
       {

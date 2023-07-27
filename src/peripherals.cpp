@@ -8,15 +8,7 @@
 #include "peripherals.h"
 
 /* GLOBAL VARIABLES */
-unsigned long ulDebounceUP = 0;
-unsigned long ulDebounceDW = 0;
-unsigned long ulDebounceSL = 0;
-
-int buttonUP = 0;
-int buttonDW = 0;
-int buttonSL = 0;
-bool flagButtonUP = false;
-bool flagButtonSL = false;
+//empty
 
 /* LOCAL FUNCTIONS */
 //empty
@@ -88,9 +80,16 @@ void fnvButtonsInit()
  * 
  * @return The button pressed 
  */
-int fniButtonPressed()
+Keypressed ButtonPressed()
 {
-   int returnButton = 0;
+   Keypressed returnButton = BUTTON_NULL;
+   static int buttonUP = 0;
+   static int buttonDW = 0;
+   static int buttonSL = 0;
+   static bool flagButtonSL = false;
+   static unsigned long ulDebounceUP = 0;
+   static unsigned long ulDebounceDW = 0;
+   static unsigned long ulDebounceSL = 0;
 
    buttonUP = digitalRead(BUTTON1_PIN);
    if(!buttonUP)
