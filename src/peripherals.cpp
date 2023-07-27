@@ -70,9 +70,9 @@ void fnvBuzzerToggleStatus()
  */
 void fnvButtonsInit()
 {
-   pinMode(BUTTON1_PIN, INPUT_PULLUP);
-   pinMode(BUTTON2_PIN, INPUT_PULLUP);
-   pinMode(BUTTON3_PIN, INPUT_PULLUP);
+   pinMode(BUTTON_UP_PIN, INPUT_PULLUP);
+   pinMode(BUTTON_DOWN_PIN, INPUT_PULLUP);
+   pinMode(BUTTON_SELECT_PIN, INPUT_PULLUP);
 }
 
 /**
@@ -91,7 +91,7 @@ Keypressed ButtonPressed()
    static unsigned long ulDebounceDW = 0;
    static unsigned long ulDebounceSL = 0;
 
-   buttonUP = digitalRead(BUTTON1_PIN);
+   buttonUP = digitalRead(BUTTON_UP_PIN);
    if(!buttonUP)
    {
       if((millis() - ulDebounceUP) > DEBOUCE_BUTTON)
@@ -102,7 +102,7 @@ Keypressed ButtonPressed()
       }
    }
 
-   buttonDW = digitalRead(BUTTON2_PIN);
+   buttonDW = digitalRead(BUTTON_DOWN_PIN);
    if(!buttonDW)
    {
       if((millis() - ulDebounceDW) > DEBOUCE_BUTTON)
@@ -114,7 +114,7 @@ Keypressed ButtonPressed()
    }
 
    flagButtonSL = buttonSL;
-   buttonSL = digitalRead(BUTTON3_PIN);
+   buttonSL = digitalRead(BUTTON_SELECT_PIN);
    if((!buttonSL) && (flagButtonSL))
    {
       if((millis() - ulDebounceSL) > DEBOUNCE_SELECT_BUTTON)
