@@ -18,8 +18,8 @@
 /* Peripherals */
 #define BUZZER_PIN         GPIO_PIN_6
 #define BUTTON_UP_PIN      GPIO_PIN_7  
-#define BUTTON_DOWN_PIN    GPIO_PIN_5
-#define BUTTON_SELECT_PIN  GPIO_PIN_4
+#define BUTTON_DOWN_PIN    GPIO_PIN_4
+#define BUTTON_SELECT_PIN  GPIO_PIN_2
 
 /* Display ST7920 128x64 pixels */
 #define SCK_PIN            GPIO_PIN_13
